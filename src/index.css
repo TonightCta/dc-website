@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'OtherFont';
+  src: url('./assets/fonts/Spark.otf');
+  font-weight: normal;
+  font-style: normal;
+}

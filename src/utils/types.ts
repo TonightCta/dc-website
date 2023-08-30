@@ -1,3 +1,12 @@
+import Web3 from 'web3'
+import currentProvider from 'web3'
+
+
+const win: any = window;
+export const { ethereum } = win;
+
+export const web3 = new Web3(ethereum || currentProvider);
+
 export interface State {
     token?: string
 }

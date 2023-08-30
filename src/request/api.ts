@@ -54,3 +54,8 @@ export const UploadBackGroundService = (p: FormData) => post('/profile/uploadbgi
 export const SignInfoService = (p: o) => post('/checkin/info', p);
 //Sign-in Up
 export const SignUpService = (p: o) => post('/checkin/checkin', p);
+
+
+
+// --------> Admin
+export const CheckAccount = (p:o) => post('/admin/is_admin',p);

@@ -11,7 +11,7 @@ const IndexView = (): ReactElement<ReactNode> => {
             <MenuMine />
             <div className="route-view">
                 {
-                    !state.token
+                    state.token
                         ? <Outlet />
                         : <Navigate to="/login" />
                 }
