@@ -2,60 +2,48 @@ import { post, get } from './index';
 
 type o = {};
 
-//Profile
-export const ProfileService = (p: o) => post('/profile/info', p);
-//Edit Profile
-export const EditProfileService = (p: o) => post('/profile/edit', p);
-//Edit Avatar
-export const EditAvatarService = (p: o) => post('/profile/uploadavatar', p);
-//Upload file
-export const UploadFileService = (p: FormData) => post('/file/upload', p);
-//Mint NFT
-export const NFTMintService = (p: FormData) => post('/nft/mint', p);
-//Maker NFT
-export const NFTMakerService = (p: o) => post('/order/maker', p);
-//Buy NFT
-export const NFTBuyService = (p: o) => post('/order/taker', p);
-//Off NFT
-export const MFTOffService = (p: o) => post('/order/cancel', p);
-//Market NFT
-export const NFTMarketService = (p: o) => post('/order/list', p);
-//NFT Info
-export const NFTInfoService = (p: o) => post('/order/info', p);
-//NFT Info 2
-export const NFTInfoService2 = (p: o) => post('/nft/url', p);
-//Logs NFT
-export const NFTLogsService = (p: o) => post('/nft/history', p);
-//Owner NFT
-export const NFTOwnerService = (p: o) => post('/user/sell', p);
-//Wallet NFT
-export const NFTWalletService = (p: o) => post('/nft/wallet', p);
-//Query File
-export const QueryFile = (p: o) => post('/file/url', p);
-//Activity Join
-export const ActivityJoinService = (p: o) => post('/invite/register', p);
-//Check Join
-export const CheckJoinService = (p: o) => post('/invite/isregistered', p);
-//Activity Info
-export const ActivityInfoService = (p: o) => post('/invite/info', p);
-//Activity Rank
-export const ActivityRankService = (p: o) => post('/rank/topnftdeal', p);
-//Mint Rank
-export const MintRankService = (p: o) => post('/rank/topnftmint', p);
-//Auth Twitter
-export const AuthTwitterService = (p: o) => post('/twitter/requesturl', p);
-//Bind Twitter
-export const BindTwitterService = (p: o) => get('/twitter/maketoken', p);
-//Upload Audio
-export const UploadAudioService = (p: FormData) => post('/profile/uploadaudio', p);
-//Upload Background
-export const UploadBackGroundService = (p: FormData) => post('/profile/uploadbgimg', p);
-//Sign-in Info
-export const SignInfoService = (p: o) => post('/checkin/info', p);
-//Sign-in Up
-export const SignUpService = (p: o) => post('/checkin/checkin', p);
+//Check Account
+export const CheckAccount = (p: o) => post('/admin/is_admin', p);
+//All NFTs
+export const AllNfts = (p: o) => post('/admin/nft/list', p);
+//Category List
+export const CategoryList = (p: o) => post('/category/list', p);
+//Collection List
+export const CollectionList = (p: o) => post('/collection/list', p);
+//Label List
+export const LabelList = (p: o) => post('/nft/label/list', p);
+//Up Avatar
+export const UpAvatar = (p: o) => post('/admin/profile/uploadavatar', p);
+//Up Image
+export const UpImage = (p: o) => post('/admin/profile/uploadbgimg', p);
+//Up Voice
+export const UpVoice = (p: o) => post('/admin/profile/uploadaudio', p);
+//Category Add
+export const CategoryAdd = (p: o) => post('/admin/category/add', p);
+//Category Edit
+export const CategoryEdit = (p: o) => post('/admin/category/update', p);
+//Gallery Period
+export const GalleryPeriod = (p: o) => post('/gallery/series/list', p);
+//Gallery List
+export const GalleryList = (p: o) => post('/gallery/list', p);
+//Gallery Add
+export const GalleryAdd = (p: o) => post('/admin/gallery/series/add', p);
+//Gallert Edit 
+export const GalleryEdit = (p: o) => post('/admin/gallery/series/update', p);
+//Push Screen
+export const PushScreen = (p: o) => post('/admin/homepage/poster1/set', p);
+//Set Gallery
+export const SetGallery = (p: o) => post('/admin/gallery/set', p);
+//Collection Add
+export const CollectionAdd = (p:o) => post('/collection/add',p);
+//Collection Info
+export const CollectionInfo = (p:o) => post('/collection/info',p);
+//Collection Edit
+export const CollectionEdit = (p:o) => post('/collection/update',p);
+//Collection NFT List
+export const CollectionNFTList = (p:o) => post('/collection/nft/list',p);
+//Upload Collection BG
+export const UploadCollectionBG = (p:FormData) => post('/collection/bgimg/upload',p);
+//Upload Collection Logo
+export const UploadCollectionLogo = (p:FormData) => post('/collection/logo/upload',p);
 
-
-
-// --------> Admin
-export const CheckAccount = (p:o) => post('/admin/is_admin',p);

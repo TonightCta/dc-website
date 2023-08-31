@@ -8,11 +8,13 @@ export const { ethereum } = win;
 export const web3 = new Web3(ethereum || currentProvider);
 
 export interface State {
-    token?: string
+    token?: string,
+    address?:string
 }
 
 export enum Type {
     SET_TOKEN = 'set_token',
+    SET_ADDRESS = 'set_address'
 };
 
 export interface IAction {

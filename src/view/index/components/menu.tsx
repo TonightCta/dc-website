@@ -1,17 +1,21 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import {
+    AntDesignOutlined,
     AreaChartOutlined,
     ContainerOutlined,
     DesktopOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     PieChartOutlined,
+    PoweroffOutlined,
     RadarChartOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { Button, Menu } from 'antd';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { VoiceAdmin } from "../../../App";
+import { Type } from "../../../utils/types";
 type MenuItem = Required<MenuProps>['items'][number];
 
 
@@ -33,16 +37,18 @@ const getItem = (
     } as MenuItem;
 }
 const items: MenuItem[] = [
-    getItem('NFTs', '1', '/', <PieChartOutlined />),
-    getItem('创作者管理', '2', '/creator', <DesktopOutlined />),
-    getItem('画廊管理', '3', '/gallery', <ContainerOutlined />),
-    getItem('创作大赛管理', '4', '/creative', <AreaChartOutlined />),
-    getItem('默认数据管理', '5', '/default', <RadarChartOutlined />),
+    getItem('NFTs管理', '1', '/', <PieChartOutlined />),
+    getItem('集合管理', '2', '/collection', <AntDesignOutlined />),
+    getItem('创作者管理', '3', '/creator', <DesktopOutlined />),
+    getItem('画廊管理', '4', '/gallery', <ContainerOutlined />),
+    getItem('创作大赛管理', '5', '/creative', <AreaChartOutlined />),
+    getItem('设置', '6', '/default', <RadarChartOutlined />),
 ];
 
 const MenuMine = (): ReactElement => {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
+    const { dispatch } = useContext(VoiceAdmin);
     const [defaultMenu, setDefaultMenu] = useState<string>('1');
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
@@ -54,15 +60,18 @@ const MenuMine = (): ReactElement => {
                 navigate('/');
                 break;
             case '2':
-                navigate('/creator');
+                navigate('/collection');
                 break;
             case '3':
-                navigate('gallery');
+                navigate('/creator');
                 break;
             case '4':
-                navigate('creative');
+                navigate('/gallery');
                 break;
             case '5':
+                navigate('/creative');
+                break;
+            case '6':
                 navigate('/default');
                 break;
             default:
@@ -70,22 +79,24 @@ const MenuMine = (): ReactElement => {
         }
     };
     useEffect(() => {
-        console.log(location.pathname)
         switch (location.pathname) {
             case '/':
                 setDefaultMenu('1');
                 break;
-            case '/creator':
+            case '/collection':
                 setDefaultMenu('2');
                 break;
-            case '/gallery':
+            case '/creator':
                 setDefaultMenu('3');
                 break;
-            case '/creative':
+            case '/gallery':
                 setDefaultMenu('4');
                 break;
-            case '/default':
+            case '/creative':
                 setDefaultMenu('5');
+                break;
+            case '/default':
+                setDefaultMenu('6');
                 break;
             default:
                 setDefaultMenu('1')
@@ -111,6 +122,21 @@ const MenuMine = (): ReactElement => {
             </div>
             <div className="oper-menu" onClick={toggleCollapsed}>
                 {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            </div>
+            <div className="disconnect-box">
+                <Button type="default" onClick={() => {
+                    sessionStorage.removeItem('token');
+                    dispatch({
+                        type: Type.SET_TOKEN,
+                        payload: {
+                            token: ''
+                        }
+                    });
+                    navigate('/')
+                }}>
+                    <PoweroffOutlined />
+                    <span className="text-tag">Disconnect</span>
+                </Button>
             </div>
         </div>
     )

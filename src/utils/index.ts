@@ -1,1 +1,8 @@
-export {};
+
+
+export const PlianContractAddress721Main: string = "0xa2822ac2662fe0cbf470d5721e24f8508ec43d33";
+export const PlianContractAddress721Test: string = "0x6B2793D4024bC3A9505133c0649e194488be1a47";
+
+export const calsAddress = (_address: string) => {
+    return _address.substring(0, 6) + '...' + _address.substring(_address.length - 4, _address.length)
+}

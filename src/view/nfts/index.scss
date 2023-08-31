@@ -1,0 +1,52 @@
+.nfts-view {
+  .filter-box {
+    margin-bottom: 24px;
+    padding-top: 24px;
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        display: flex;
+        align-items: center;
+        width: 50%;
+        text-align: left;
+        p {
+          width: 120px;
+        }
+        .tag-list {
+          display: flex;
+        }
+      }
+      li:nth-child(3) {
+        width: 100%;
+        margin: 40px 0;
+      }
+    }
+  }
+}
+.edit-nft {
+  padding: 16px 0;
+  .show-public {
+    margin-bottom: 24px;
+    p:last-child {
+      text-align: center;
+      margin: 12px;
+    }
+  }
+  .public-title {
+    font-size: 16px;
+    span {
+      font-weight: bold;
+      color: #f50992;
+    }
+  }
+}
+.public-add-edit {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  p {
+    font-size: 14px;
+    margin-right: 12px;
+  }
+}

@@ -10,6 +10,8 @@
     flex-direction: column;
     justify-content: space-between;
     transition: 0.3s all;
+    position: relative;
+    overflow: hidden;
     .logo-pic {
       width: 124px;
       height: 32px;
@@ -25,12 +27,25 @@
       background-color: #f50992;
     }
     .oper-menu {
-      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 12px;
+      border-radius: 50%;
+      position: absolute;
+      right: -24px;
+      bottom: 200px;
+      width: 60px;
+      height: 60px;
+      background-color: white;
       span {
-        color: white;
+        color: black;
         font-size: 24px;
         cursor: pointer;
       }
+    }
+    .disconnect-box{
+      padding-bottom: 24px;
     }
   }
   .close-menu {
@@ -41,8 +56,16 @@
     .logo-small{
         display: block;
     }
+    .disconnect-box{
+      .text-tag{
+        display: none;
+      }
+    }
   }
   .route-view {
     flex: 1;
+    padding: 24px;
+    height: 100vh;
+    overflow: auto;
   }
 }

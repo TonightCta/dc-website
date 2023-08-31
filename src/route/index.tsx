@@ -7,26 +7,29 @@ import LoadingMine from "../components/loading";
 const RouteConfig = (): ReactElement<ReactNode> => {
     return (
         <Routes>
-            <Route path="/" element={<React.Suspense fallback={<LoadingMine/>}>
+            <Route path="/" element={<React.Suspense fallback={<LoadingMine />}>
                 <View.IndexView />
             </React.Suspense>}>
-                <Route index element={<React.Suspense fallback={<LoadingMine/>}>
-                    <View.NftsView/>
+                <Route index element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.NftsView />
                 </React.Suspense>}></Route>
-                <Route path="/creator" element={<React.Suspense fallback={<LoadingMine/>}>
-                    <View.CreatorView/>
+                <Route path="/collection" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.CollectionView />
                 </React.Suspense>}></Route>
-                <Route path="/gallery" element={<React.Suspense fallback={<LoadingMine/>}>
-                    <View.GalleryView/>
+                <Route path="/creator" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.CreatorView />
                 </React.Suspense>}></Route>
-                <Route path="/creative" element={<React.Suspense fallback={<LoadingMine/>}>
-                    <View.CreativeView/>
+                <Route path="/gallery" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.GalleryView />
                 </React.Suspense>}></Route>
-                <Route path="/default" element={<React.Suspense fallback={<LoadingMine/>}>
-                    <View.DefaultView/>
+                <Route path="/creative" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.CreativeView />
+                </React.Suspense>}></Route>
+                <Route path="/default" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.DefaultView />
                 </React.Suspense>}></Route>
             </Route>
-            <Route path="/login" element={<React.Suspense fallback={<LoadingMine/>}>
+            <Route path="/login" element={<React.Suspense fallback={<LoadingMine />}>
                 <View.LoginView />
             </React.Suspense>}></Route>
         </Routes>

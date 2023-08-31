@@ -13,7 +13,7 @@ export const useMetamask = () => {
                 return 'error'
             }
             ethereum.on('accountsChanged', async (accounts: string[]) => {
-                if(!ethereum.selectedAddress){
+                if (!ethereum.selectedAddress) {
                     return
                 }
                 if (accounts.length > 0) {
@@ -26,6 +26,12 @@ export const useMetamask = () => {
                         navigate('/')
                         return 'error'
                     } else {
+                        dispatch({
+                            type: Type.SET_ADDRESS,
+                            payload: {
+                                address: accounts[0]
+                            }
+                        })
                         dispatch({
                             type: Type.SET_TOKEN,
                             payload: {
@@ -66,6 +72,12 @@ export const useMetamask = () => {
                         token: 'is'
                     }
                 });
+                dispatch({
+                    type: Type.SET_ADDRESS,
+                    payload: {
+                        address: result[0]
+                    }
+                })
                 navigate('/')
             }
         } catch (err: any) {
