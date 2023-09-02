@@ -16,6 +16,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/collection" element={<React.Suspense fallback={<LoadingMine />}>
                     <View.CollectionView />
                 </React.Suspense>}></Route>
+                <Route path="/category" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.CategoryView />
+                </React.Suspense>}></Route>
                 <Route path="/creator" element={<React.Suspense fallback={<LoadingMine />}>
                     <View.CreatorView />
                 </React.Suspense>}></Route>

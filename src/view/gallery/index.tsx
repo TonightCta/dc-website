@@ -62,15 +62,17 @@ const GalleryView = (): ReactElement<ReactNode> => {
     const handlePeriodChange = async (value: string) => {
         setSelectPer(value)
     };
+    const [wait,setWait] = useState<boolean>(false);
     const [periodList, setPeriodList] = useState<{ value: string, label: string }[]>([]);
     const [selectPer, setSelectPer] = useState<string>('1');
     const [galleryList, setGallery] = useState<DataType[]>([]);
     const getGalleryList = async () => {
+        setWait(true);
         const result = await GalleryList({
             series_id: +selectPer,
             page_size: 500
         });
-        console.log(result);
+        setWait(false);
         const { data } = result;
         if (!data.data.item) {
             setGallery([]);
@@ -109,7 +111,7 @@ const GalleryView = (): ReactElement<ReactNode> => {
                 />
             </div>
             <div className="data-list">
-                <Table columns={columns} dataSource={galleryList} />
+                <Table loading={wait} columns={columns} dataSource={galleryList} />
             </div>
         </div>
     )

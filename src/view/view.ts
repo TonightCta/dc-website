@@ -8,12 +8,14 @@ const GalleryView = React.lazy(() => import('./gallery/index'));
 const CreativeView = React.lazy(() => import('./creative/index'));
 const CreatorView = React.lazy(() => import('./creator/index'));
 const DefaultView = React.lazy(() => import('./default/index'));
+const CategoryView = React.lazy(() => import('./category/index'));
 
 export {
     IndexView,
     LoginView,
     NftsView,
     CollectionView,
+    CategoryView,
     GalleryView,
     CreativeView,
     CreatorView,

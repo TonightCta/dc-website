@@ -35,15 +35,30 @@ export const PushScreen = (p: o) => post('/admin/homepage/poster1/set', p);
 //Set Gallery
 export const SetGallery = (p: o) => post('/admin/gallery/set', p);
 //Collection Add
-export const CollectionAdd = (p:o) => post('/collection/add',p);
+export const CollectionAdd = (p: o) => post('/collection/add', p);
 //Collection Info
-export const CollectionInfo = (p:o) => post('/collection/info',p);
+export const CollectionInfo = (p: o) => post('/collection/info', p);
 //Collection Edit
-export const CollectionEdit = (p:o) => post('/collection/update',p);
+export const CollectionEdit = (p: o) => post('/collection/update', p);
 //Collection NFT List
-export const CollectionNFTList = (p:o) => post('/collection/nft/list',p);
+export const CollectionNFTList = (p: o) => post('/collection/nft/list', p);
 //Upload Collection BG
-export const UploadCollectionBG = (p:FormData) => post('/collection/bgimg/upload',p);
+export const UploadCollectionBG = (p: FormData) => post('/collection/bgimg/upload', p);
 //Upload Collection Logo
-export const UploadCollectionLogo = (p:FormData) => post('/collection/logo/upload',p);
+export const UploadCollectionLogo = (p: FormData) => post('/collection/logo/upload', p);
+//Competition List
+export const CompetitionList = (p: o) => post('/competition/list', p);
+//Competition Add
+export const CompetitionAdd = (p: o) => post('/competition/add', p);
+//Competition Edit
+export const CompetitionEdit = (p: o) => post('/competition/update', p);
+//Upload Competition Logo
+export const UploadCompetitionLogo = (p: FormData) => post('/competition/uploadlogo', p);
+//Upload Competition BG
+export const UploadCompetitionBG = (p: FormData) => post('/competition/uploadbgimg', p);
+//Upload Competition Poster
+export const UploadCompetitionPoster = (p:FormData) => post('/competition/updateposter',p);
+//Competition NFT List
+export const CompetitionNFTList = (p: o) => post('/competition/compitems/list', p);
+
 

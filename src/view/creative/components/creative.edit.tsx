@@ -1,41 +1,35 @@
-import { Button, Modal, message } from "antd";
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { Button, DatePicker, Modal, message } from "antd";
+import { ReactElement, useEffect, useState } from "react";
 import { DataType } from "..";
 import { CloudUploadOutlined } from "@ant-design/icons";
-import { VoiceAdmin } from "../../../App";
-import { CollectionEdit, CollectionAdd, UploadCollectionBG, UploadCollectionLogo } from '../../../request/api'
+import dayjs from 'dayjs';
+import { CompetitionEdit, CompetitionAdd, UploadCompetitionPoster, UploadCollectionBG, UploadCollectionLogo } from '../../../request/api'
+import type { DatePickerProps } from 'antd';
+import { DateConvert } from "../../../utils";
+
 
 interface Props {
     visible: boolean,
     closeModal: (val: boolean) => void,
     info: DataType | undefined,
-    upDate:() => void;
+    upDate: () => void
 }
 
 interface Input {
     name: string,
     desc: string,
-    earnings: string,
-    website: string,
-    twitter: string,
-    discord: string,
-    telegram: string,
-    medium: string
+    start_time: string,
+    end_time: string,
 }
 
-const EditCollectionModal = (props: Props): ReactElement => {
+const EditCompetitionModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const [wait, setWait] = useState<boolean>(false);
-    const { state } = useContext(VoiceAdmin);
     const [input, setInput] = useState<Input>({
         name: '',
         desc: '',
-        earnings: '',
-        website: '',
-        twitter: '',
-        discord: '',
-        telegram: '',
-        medium: ''
+        start_time: DateConvert(new Date().getTime() / 1000),
+        end_time: DateConvert(new Date().getTime() / 1000)
     });
     const [bgView, setBgView] = useState<{ source: File | string, view: string }>({
         source: '',
@@ -45,6 +39,21 @@ const EditCollectionModal = (props: Props): ReactElement => {
         source: '',
         view: ''
     });
+    const [posterView, setPosterView] = useState<{ source: File | string, view: string }>({
+        source: '',
+        view: ''
+    });
+    const selectPosterFile = (e: any) => {
+        const file = e.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            setPosterView({
+                source: file,
+                view: e.target?.result as string
+            })
+        }
+    }
     const selectBgFile = (e: any) => {
         const file = e.files[0];
         const reader = new FileReader();
@@ -76,46 +85,40 @@ const EditCollectionModal = (props: Props): ReactElement => {
         const { info } = props;
         setInput({
             ...input,
-            name: info?.collection_name || '',
-            desc: info?.collection_description || '',
-            website: info?.website_link || '',
-            twitter: info?.twitter_link || '',
-            discord: info?.discord_link || '',
-            telegram: info?.tg_link || '',
-            medium: info?.medium_link || ''
+            name: info?.name || '',
+            desc: info?.description || '',
+            start_time: DateConvert(info?.start_time ? info?.start_time : new Date().getTime() / 1000),
+            end_time: DateConvert(info?.end_time ? info?.end_time : new Date().getTime() / 1000)
         })
     }, [props.visible]);
+    const onStartTime: DatePickerProps['onChange'] = (date, dateString) => {
+        console.log(date, dateString)
+    }
+    const onEndTime: DatePickerProps['onChange'] = (date, dateString) => {
+        console.log(date, dateString)
+    }
     const submitEdit = async () => {
         setWait(true);
         const params = {
-            category_id:1,
-            user_address: state.address,
-            collection_name: input.name,
-            collection_description: input.desc,
-            creator_earnings: +input.earnings,
-            chain_id: '1',
-            contract_address: '0xa2822ac2662fe0cbf470d5721e24f8508ec43d33',
-            contract_type: 'ERC721',
-            website_link: input.website,
-            twitter_link: input.twitter,
-            discord_link: input.discord,
-            tg_link: input.telegram,
-            medium_link: input.medium
+            name: input.name,
+            description: input.desc,
+            start_time: new Date(input.start_time).getTime() / 1000,
+            end_time: new Date(input.end_time).getTime() / 1000
         };
         const paramsEdit = {
             ...params,
-            category_id: props.info?.collection_id,
+            competition_id: props.info?.competition_id,
         };
-        
-        const result:any = props.info?.collection_id ? await CollectionEdit(paramsEdit) : await CollectionAdd(params);
+
+        const result: any = props.info?.competition_id ? await CompetitionEdit(paramsEdit) : await CompetitionAdd(params);
         setWait(false);
         console.log(result);
         const { status } = result;
-        if(status !== 200){
+        if (status !== 200) {
             message.error(result.msg)
             return
         };
-
+        props.upDate();
         // if (bgView.source) {
         //     const formdata = new FormData();
         //     formdata.append('collection_id','');
@@ -132,7 +135,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
         // }
     }
     return (
-        <Modal title={`${props.info?.collection_id ? 'Edit' : 'Add to'} Collection`} width={600} footer={null} open={visible} onCancel={handleCancel}>
+        <Modal title={`${props.info?.competition_id ? 'Edit' : 'Add to'} Competition`} width={600} footer={null} open={visible} onCancel={handleCancel}>
             <div className="edit-collection">
                 <ul>
                     <li>
@@ -154,64 +157,28 @@ const EditCollectionModal = (props: Props): ReactElement => {
                         }} />
                     </li>
                     <li>
-                        <p className="edit-label">Creator earnings</p>
-                        <input type="text" placeholder="Please enter the creator earnings" value={input.earnings} onChange={(e) => {
-                            setInput({
-                                ...input,
-                                earnings: e.target.value
-                            })
-                        }} />
+                        <p className="edit-label">Start time</p>
+                        <DatePicker defaultValue={dayjs(input.start_time)} onChange={onStartTime} />
                     </li>
                     <li>
-                        <p className="edit-label">Website link</p>
-                        <input type="text" placeholder="Please enter the website link" value={input.website} onChange={(e) => {
-                            setInput({
-                                ...input,
-                                website: e.target.value
-                            })
-                        }} />
-                    </li>
-                    <li>
-                        <p className="edit-label">Twitter link</p>
-                        <input type="text" placeholder="Please enter the twitter link" value={input.twitter} onChange={(e) => {
-                            setInput({
-                                ...input,
-                                twitter: e.target.value
-                            })
-                        }} />
-                    </li>
-                    <li>
-                        <p className="edit-label">Discord link</p>
-                        <input type="text" placeholder="Please enter the discord link" value={input.discord} onChange={(e) => {
-                            setInput({
-                                ...input,
-                                discord: e.target.value
-                            })
-                        }} />
-                    </li>
-                    <li>
-                        <p className="edit-label">Telegram link</p>
-                        <input type="text" placeholder="Please enter the telegram link" value={input.telegram} onChange={(e) => {
-                            setInput({
-                                ...input,
-                                telegram: e.target.value
-                            })
-                        }} />
-                    </li>
-                    <li>
-                        <p className="edit-label">Medium link</p>
-                        <input type="text" placeholder="Please enter the medium link" value={input.medium} onChange={(e) => {
-                            setInput({
-                                ...input,
-                                medium: e.target.value
-                            })
-                        }} />
+                        <p className="edit-label">End time</p>
+                        <DatePicker defaultValue={dayjs(input.end_time)} onChange={onEndTime} />
                     </li>
                     <li>
                         <p className="edit-label">Background image</p>
                         <div className="up-load-bg-box">
-                            <img src={bgView.view ? bgView.view : props.info?.bg_image_minio_url} alt="" />
+                            <img src={bgView.view ? bgView.view : props.info?.bg_image_minio} alt="" />
                             <input type="file" accept="image/*" onChange={selectBgFile} />
+                            <div className="up-mask">
+                                <CloudUploadOutlined />
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <p className="edit-label">Poster image</p>
+                        <div className="up-load-bg-box">
+                            <img src={posterView.view ? posterView.view : props.info?.poster_minio} alt="" />
+                            <input type="file" accept="image/*" onChange={selectPosterFile} />
                             <div className="up-mask">
                                 <CloudUploadOutlined />
                             </div>
@@ -220,7 +187,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
                     <li>
                         <p className="edit-label">Logo image</p>
                         <div className="up-load-logo-box">
-                            <img src={logoView.view ? logoView.view : props.info?.logo_minio_url} alt="" onChange={selectLogoFile} />
+                            <img src={logoView.view ? logoView.view : props.info?.logo_minio} alt="" onChange={selectLogoFile} />
                             <input type="file" accept="image/*" />
                             <div className="up-mask">
                                 <CloudUploadOutlined />
@@ -237,4 +204,4 @@ const EditCollectionModal = (props: Props): ReactElement => {
     )
 };
 
-export default EditCollectionModal;
+export default EditCompetitionModal;

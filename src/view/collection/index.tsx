@@ -29,8 +29,10 @@ const CollectionView = (): ReactElement<ReactNode> => {
     const [list, setList] = useState<DataType[]>([]);
     const [infoModal, setInfoModal] = useState<boolean>(false);
     const [editModal, setEditModal] = useState<boolean>(false);
-    const [collectionMsg, setCollectionMsg] = useState<DataType>()
+    const [collectionMsg, setCollectionMsg] = useState<DataType>();
+    const [wait, setWait] = useState<boolean>(false);
     const getList = async () => {
+        setWait(true)
         const result = await CollectionList({
             page_size: 500
         });
@@ -41,6 +43,7 @@ const CollectionView = (): ReactElement<ReactNode> => {
                 key: index
             }
         })
+        setWait(false)
         setList(data.data.item);
     };
     const [arrow, setArrow] = useState('Show');
@@ -188,12 +191,14 @@ const CollectionView = (): ReactElement<ReactNode> => {
                 </Button>
             </p>
             <div className="data-list">
-                <Table columns={columns} dataSource={list} />
+                <Table loading={wait} columns={columns} dataSource={list} />
             </div>
             <InfoModal collectionID={collectionMsg?.collection_id as number} visible={infoModal} closeModal={(val: boolean) => {
                 setInfoModal(val)
             }} />
-            <EditCollectionModal info={collectionMsg} visible={editModal} closeModal={(val: boolean) => {
+            <EditCollectionModal upDate={() => {
+                getList();
+            }} info={collectionMsg} visible={editModal} closeModal={(val: boolean) => {
                 setEditModal(val)
             }} />
         </div>
