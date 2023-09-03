@@ -65,6 +65,11 @@ const CollectionView = (): ReactElement<ReactNode> => {
             title: 'Name',
             dataIndex: 'collection_name',
             key: 'collection_name',
+            render: (_, { collection_name }) => (
+                <Tooltip placement="top" title={collection_name} arrow={mergedArrow}>
+                    <p className="text-overflow">{calsAddress(collection_name)}</p>
+                </Tooltip>
+            )
         },
         {
             title: 'Description',
@@ -78,6 +83,17 @@ const CollectionView = (): ReactElement<ReactNode> => {
         },
         {
             title: 'Background Image',
+            dataIndex: 'bg_image_minio_url',
+            key: 'bg_image_minio_url',
+            render: (_, { bg_image_minio_url }) => <div>
+                <Image
+                    width={100}
+                    src={bg_image_minio_url}
+                />
+            </div>
+        },
+        {
+            title: 'Poster Image',
             dataIndex: 'bg_image_minio_url',
             key: 'bg_image_minio_url',
             render: (_, { bg_image_minio_url }) => <div>

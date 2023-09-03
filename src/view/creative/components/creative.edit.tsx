@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { DataType } from "..";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
-import { CompetitionEdit, CompetitionAdd, UploadCompetitionPoster, UploadCollectionBG, UploadCollectionLogo } from '../../../request/api'
+import { CompetitionEdit, CompetitionAdd, UploadCompetitionPoster, UploadCompetitionBG, UploadCompetitionLogo } from '../../../request/api'
 import type { DatePickerProps } from 'antd';
 import { DateConvert } from "../../../utils";
 
@@ -44,7 +44,10 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         view: ''
     });
     const selectPosterFile = (e: any) => {
-        const file = e.files[0];
+        const file = e.target.files[0];
+        if (!file) {
+            return
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
@@ -55,8 +58,11 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         }
     }
     const selectBgFile = (e: any) => {
-        const file = e.files[0];
+        const file = e.target.files[0];
         const reader = new FileReader();
+        if (!file) {
+            return
+        }
         reader.readAsDataURL(file);
         reader.onload = (e) => {
             setBgView({
@@ -66,7 +72,10 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         }
     }
     const selectLogoFile = (e: any) => {
-        const file = e.files[0];
+        const file = e.target.files[0];
+        if (!file) {
+            return
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
@@ -92,10 +101,18 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         })
     }, [props.visible]);
     const onStartTime: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString)
+        console.log(date, dateString);
+        setInput({
+            ...input,
+            start_time: dateString
+        })
     }
     const onEndTime: DatePickerProps['onChange'] = (date, dateString) => {
         console.log(date, dateString)
+        setInput({
+            ...input,
+            end_time: dateString
+        })
     }
     const submitEdit = async () => {
         setWait(true);
@@ -111,28 +128,49 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         };
 
         const result: any = props.info?.competition_id ? await CompetitionEdit(paramsEdit) : await CompetitionAdd(params);
-        setWait(false);
         console.log(result);
-        const { status } = result;
+        const { status, data } = result;
         if (status !== 200) {
             message.error(result.msg)
             return
         };
+        if (bgView.source) {
+            const formdata = new FormData();
+            formdata.append('competition_id', props.info?.competition_id ? props.info?.competition_id : data.competition_id);
+            formdata.append('bgimg', bgView.source);
+            const up = await UploadCompetitionBG(formdata);
+            console.log(up);
+        }
+        if (posterView.source) {
+            const formdata = new FormData();
+            formdata.append('competition_id', props.info?.competition_id ? props.info?.competition_id : data.competition_id);
+            formdata.append('poster', posterView.source);
+            const up = await UploadCompetitionPoster(formdata);
+            console.log(up);
+        }
+        if (logoView.source) {
+            const formdata = new FormData();
+            formdata.append('competition_id', props.info?.competition_id ? props.info?.competition_id : data.competition_id);
+            formdata.append('logo', logoView.source);
+            const up = await UploadCompetitionLogo(formdata);
+            console.log(up);
+        };
+        message.success('提交成功');
+        handleCancel();
+        setBgView({
+            view: '',
+            source: ''
+        });
+        setLogoView({
+            view: '',
+            source: ''
+        })
+        setPosterView({
+            view: '',
+            source: ''
+        })
         props.upDate();
-        // if (bgView.source) {
-        //     const formdata = new FormData();
-        //     formdata.append('collection_id','');
-        //     formdata.append('bgimg',bgView.source);
-        //     const result = await UploadCollectionBG(formdata);
-        //     console.log(result);
-        // }
-        // if (logoView.source) {
-        //     const formdata = new FormData();
-        //     formdata.append('collection_id','');
-        //     formdata.append('avatar',bgView.source);
-        //     const result = await UploadCollectionLogo(formdata);
-        //     console.log(result);
-        // }
+        setWait(false);
     }
     return (
         <Modal title={`${props.info?.competition_id ? 'Edit' : 'Add to'} Competition`} width={600} footer={null} open={visible} onCancel={handleCancel}>
@@ -187,8 +225,8 @@ const EditCompetitionModal = (props: Props): ReactElement => {
                     <li>
                         <p className="edit-label">Logo image</p>
                         <div className="up-load-logo-box">
-                            <img src={logoView.view ? logoView.view : props.info?.logo_minio} alt="" onChange={selectLogoFile} />
-                            <input type="file" accept="image/*" />
+                            <img src={logoView.view ? logoView.view : props.info?.logo_minio} alt="" />
+                            <input type="file" accept="image/*" onChange={selectLogoFile} />
                             <div className="up-mask">
                                 <CloudUploadOutlined />
                             </div>

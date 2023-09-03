@@ -44,6 +44,8 @@ export const CollectionEdit = (p: o) => post('/collection/update', p);
 export const CollectionNFTList = (p: o) => post('/collection/nft/list', p);
 //Upload Collection BG
 export const UploadCollectionBG = (p: FormData) => post('/collection/bgimg/upload', p);
+//Upload Collection Poster
+export const UploadCollectionPoster = (p:FormData) => post('/collection/poster/upload',p);
 //Upload Collection Logo
 export const UploadCollectionLogo = (p: FormData) => post('/collection/logo/upload', p);
 //Competition List
@@ -57,8 +59,25 @@ export const UploadCompetitionLogo = (p: FormData) => post('/competition/uploadl
 //Upload Competition BG
 export const UploadCompetitionBG = (p: FormData) => post('/competition/uploadbgimg', p);
 //Upload Competition Poster
-export const UploadCompetitionPoster = (p:FormData) => post('/competition/updateposter',p);
+export const UploadCompetitionPoster = (p: FormData) => post('/competition/updateposter', p);
 //Competition NFT List
 export const CompetitionNFTList = (p: o) => post('/competition/compitems/list', p);
+//Push Screen 2
+export const PushScreen2 = (p: o) => post('/admin/homepage/poster2/set', p);
+//Join Competition
+export const JoinCompetition = (p:o) => post('/compitems/submit',p);
+//Screen List 1
+export const ScreenList1 = (p:o) => post('/homepage/poster1/list',p);
+//Screen List 2
+export const ScreenList2 = (p:o) => post('/homepage/poster2/list',p); 
+//Grallery Class List
+export const GrallertCalssList = (p:o) => post('/gallery/class/list',p);
+//Default Info
+export const DefaultInfo = (p:o) => post('/admin/profile/defaultinfo',p);
+//Set Default Period
+export const SetDefaultPeriod = (p:o) => post('/admin/gallery/series/setdefault',p);
+
+
+
 
 

@@ -39,9 +39,9 @@ const getItem = (
 }
 const items: MenuItem[] = [
     getItem('NFTs管理', '1', '/', <PieChartOutlined />),
-    getItem('集合管理', '2', '/collection', <AntDesignOutlined />),
-    getItem('类别管理', '3', '/category', <BranchesOutlined />),
-    getItem('创作者管理', '4', '/creator', <DesktopOutlined />),
+    getItem('类别管理', '2', '/category', <BranchesOutlined />),
+    getItem('集合管理', '3', '/collection', <AntDesignOutlined />),
+    getItem('首屏展示', '4', '/creator', <DesktopOutlined />),
     getItem('画廊管理', '5', '/gallery', <ContainerOutlined />),
     getItem('创作大赛管理', '6', '/creative', <AreaChartOutlined />),
     getItem('默认数据管理', '7', '/default', <RadarChartOutlined />),
@@ -61,10 +61,10 @@ const MenuMine = (): ReactElement => {
                 navigate('/');
                 break;
             case '2':
-                navigate('/collection');
+                navigate('/category');
                 break;
             case '3':
-                navigate('/category');
+                navigate('/collection');
                 break;
             case '4':
                 navigate('/creator');
@@ -87,10 +87,10 @@ const MenuMine = (): ReactElement => {
             case '/':
                 setDefaultMenu('1');
                 break;
-            case '/collection':
+            case '/category':
                 setDefaultMenu('2');
                 break;
-            case '/category':
+            case '/collection':
                 setDefaultMenu('3');
                 break;
             case '/creator':

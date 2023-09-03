@@ -1,9 +1,9 @@
-import { Table, Image } from "antd";
+import { Table, Image, Button } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import type { ColumnsType } from 'antd/es/table';
 import { AllNfts, CollectionList } from "../../../request/api";
 import { VoiceAdmin } from "../../../App";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import EditNftModal from "./edit.nft";
 
 interface Props {
@@ -30,12 +30,31 @@ const TableList = (props: Props): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const { state } = useContext(VoiceAdmin);
     const [visible, setVisible] = useState<boolean>(false);
-    const [fid, setFid] = useState<number>(0);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const [fids, setFids] = useState<number[]>([]);
+    const [tokenID,setTokenID] = useState<number>(0);
+    const f: number[] = [];
+    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+        setSelectedRowKeys(newSelectedRowKeys);
+        data.forEach((item: DataType) => {
+            newSelectedRowKeys.forEach((n: React.Key) => {
+                if (item.key === n) {
+                    f.push(item.fid)
+                }
+            })
+        });
+        console.log(f);
+        setFids(f);
+    };
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Token ID',
-            dataIndex: 'token_id',
-            key: 'token_id',
+            title: 'Fid',
+            dataIndex: 'fid',
+            key: 'fid',
             align: 'left'
         },
         {
@@ -68,18 +87,26 @@ const TableList = (props: Props): ReactElement => {
             key: 'collection_name',
         },
         {
-            title: 'Action',
-            key: 'action',
-            align: 'center',
-            render: (_, { fid }) => (
-                <div style={{cursor:'pointer'}} onClick={() => {
-                    setFid(fid);
-                    setVisible(true);
-                }}>
-                    <EditOutlined />
-                </div>
-            )
-        }
+            title: 'Above the fold',
+            dataIndex: 'collection_name',
+            key: 'collection_name',
+            render:(_,{ collection_name }) => <p>-</p>,
+            align:'center'
+        },
+        {
+            title: 'Competition',
+            dataIndex: 'collection_name',
+            key: 'collection_name',
+            render:(_,{ collection_name }) => <p>-</p>,
+            align:'center'
+        },
+        {
+            title: 'Gallery',
+            dataIndex: 'collection_name',
+            key: 'collection_name',
+            render:(_,{ collection_name }) => <p>-</p>,
+            align:'center'
+        },
     ];
     const getData = async () => {
         const collection = await CollectionList({});
@@ -115,7 +142,7 @@ const TableList = (props: Props): ReactElement => {
                     item.collection_name = coll.collection_name;
                 }
             });
-        })
+        });
         setData(data.data.item);
     };
     useEffect(() => {
@@ -123,8 +150,24 @@ const TableList = (props: Props): ReactElement => {
     }, [props.collection, props.category, props.label, props.sort, props.sortBy])
     return (
         <>
-            <Table dataSource={data} loading={wait} scroll={{ y: 560 }} columns={columns} />
-            <EditNftModal fid={fid} visible={visible} closeModal={(val: boolean) => {
+            <div className="filter-oper">
+                <div className="search-box">
+                    <input type="text" placeholder="Please enter" />
+                    <div className="search-btn">
+                        <SearchOutlined />
+                    </div>
+                </div>
+                <div>
+                    <Button type="primary" disabled={fids.length === 0} onClick={() => {
+                        setVisible(true)
+                    }}>
+                        <EditOutlined />
+                        Edit
+                    </Button>
+                </div>
+            </div>
+            <Table rowSelection={rowSelection} dataSource={data} loading={wait} scroll={{ y: 560 }} columns={columns} />
+            <EditNftModal fid={fids} visible={visible} closeModal={(val: boolean) => {
                 setVisible(val);
             }} />
         </>

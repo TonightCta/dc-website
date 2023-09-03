@@ -1,10 +1,9 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
 import { Select, Table, Image } from "antd";
-import PeriodList, { Period } from "./components/period.list";
 import type { ColumnsType } from 'antd/es/table';
-import { EditOutlined } from "@ant-design/icons";
-import { GalleryList } from "../../request/api";
+import { GalleryList, GalleryPeriod, GrallertCalssList } from "../../request/api";
+import ClassList from "./components/class.list";
 
 interface DataType {
     key: string;
@@ -47,24 +46,18 @@ const columns: ColumnsType<DataType> = [
         key: 'chain_id',
         dataIndex: 'chain_id',
     },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <div>
-                <EditOutlined />
-            </div>
-        ),
-    },
 ];
 
 const GalleryView = (): ReactElement<ReactNode> => {
-    const handlePeriodChange = async (value: string) => {
-        setSelectPer(value)
-    };
-    const [wait,setWait] = useState<boolean>(false);
+    const handleClassChange = (value: string) => {
+        setSelectClass(value);
+        getPeriodInfo(+value);
+    }
+    const [classList, setClassList] = useState<{ value: string, label: string }[]>([])
+    const [wait, setWait] = useState<boolean>(false);
     const [periodList, setPeriodList] = useState<{ value: string, label: string }[]>([]);
     const [selectPer, setSelectPer] = useState<string>('1');
+    const [selectClass, setSelectClass] = useState<string>('1');
     const [galleryList, setGallery] = useState<DataType[]>([]);
     const getGalleryList = async () => {
         setWait(true);
@@ -88,27 +81,60 @@ const GalleryView = (): ReactElement<ReactNode> => {
     };
     useEffect(() => {
         getGalleryList();
-    }, [selectPer])
+    }, [selectPer]);
+    const getClassInfo = async () => {
+        const tt = await GrallertCalssList({});
+        const { data } = tt;
+        data.data.item = data.data.item.map((item: { class_id: number, class_name: string }, index: number) => {
+            return {
+                value: String(item.class_id),
+                label: item.class_name
+            }
+        });
+        setClassList(data.data.item);
+    }
+    const getPeriodInfo = async (_id?: number) => {
+        const result = await GalleryPeriod({
+            class_id: _id ? _id : 1
+        });
+        const { data } = result;
+        data.data.item = data.data.item.map((item: { series_id: number, series_name: string }, index: number) => {
+            return {
+                value: String(item.series_id),
+                label: item.series_name
+            }
+        });
+        _id &&  setSelectPer(data.data.item[0].value);
+        setPeriodList(data.data.item);
+    };
+    useEffect(() => {
+        getClassInfo();
+        getPeriodInfo();
+    }, [])
     return (
         <div className="gallery-view">
-            <PeriodList outsidePeriod={(list: Period[]) => {
-                setSelectPer(String(list[0].series_id))
-                const list_inner: { value: string, label: string }[] = list.map((item: Period) => {
-                    return {
-                        value: String(item.series_id),
-                        label: item.series_name
-                    }
-                });
-                setPeriodList(list_inner)
-            }} />
+            <ClassList/>
             <div className="data-title">
                 <p>当前展示:</p>
                 <Select
-                    value={selectPer}
+                    value={selectClass}
                     style={{ width: 120 }}
-                    onChange={handlePeriodChange}
-                    options={periodList}
+                    onChange={handleClassChange}
+                    options={classList}
                 />
+                <ul>
+                    {
+                        periodList.map((item: { value: string, label: string }, index: number) => {
+                            return (
+                                <li key={index} className={`${selectPer === item.value ? 'active-per' : ''}`} onClick={() => {
+                                    setSelectPer(item.value);
+                                }}>
+                                    {item.label}
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
             </div>
             <div className="data-list">
                 <Table loading={wait} columns={columns} dataSource={galleryList} />

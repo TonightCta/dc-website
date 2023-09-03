@@ -1,8 +1,12 @@
 import { ReactElement, useEffect, useState } from "react";
-import { GalleryPeriod } from "../../../request/api";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import EditPeriod from "./edit.period";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { GalleryPeriod } from "../../../request/api";
+
+interface Props {
+    class_id: number
+}
 
 export interface Period {
     series_description: string,
@@ -10,34 +14,31 @@ export interface Period {
     series_name: string
 }
 
-interface Props {
-    outsidePeriod:(list:Period[]) => void
-}
-
 const PeriodList = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
-    const [periodList, setPeriodList] = useState<[]>([]);
-    const [periodMsg, setPeriodMsg] = useState<{ id: number, name: string, desc: string }>({
+    const [periodList, setPeriodList] = useState<Period[]>([]);
+    const [periodMsg, setPeriodMsg] = useState<{ id: number, name: string, desc: string, is_default: boolean }>({
         id: 0,
         name: '',
-        desc: ''
+        desc: '',
+        is_default: false,
     });
     const getPeriodList = async () => {
-        const result = await GalleryPeriod({});
+        const result = await GalleryPeriod({
+            class_id: props.class_id
+        });
         const { data } = result;
         if (!data.data.item) {
             setPeriodList([]);
             return
         };
-        props.outsidePeriod(data.data.item);
         setPeriodList(data.data.item)
     };
     useEffect(() => {
         getPeriodList();
     }, []);
     return (
-        <div className="period-box">
-            <p>期数总览:</p>
+        <div className="">
             <ul>
                 {
                     periodList.map((item: any, index: number) => {
@@ -47,10 +48,11 @@ const PeriodList = (props: Props): ReactElement => {
                                 setPeriodMsg({
                                     id: item.series_id,
                                     name: item.series_name,
-                                    desc: item.series_description
+                                    desc: item.series_description,
+                                    is_default: item.is_default
                                 })
                             }}>
-                                <p>{item.series_name}</p>
+                                <p>{item.series_name}<span>{item.is_default ? '(当前展示)' : ''}</span></p>
                                 <EditOutlined />
                             </li>
                         )
@@ -62,7 +64,8 @@ const PeriodList = (props: Props): ReactElement => {
                         setPeriodMsg({
                             id: 0,
                             name: '',
-                            desc: ''
+                            desc: '',
+                            is_default: false
                         })
                     }}>
                         <PlusOutlined />
@@ -70,7 +73,7 @@ const PeriodList = (props: Props): ReactElement => {
                     </Button>
                 </li>
             </ul>
-            <EditPeriod visible={visible} name={periodMsg.name} desc={periodMsg.desc} id={periodMsg.id} closeModal={(val: boolean) => {
+            <EditPeriod is_default={periodMsg.is_default} visible={visible} class_id={props.class_id} name={periodMsg.name} desc={periodMsg.desc} id={periodMsg.id} closeModal={(val: boolean) => {
                 setVisible(val)
             }} uploadData={getPeriodList} />
         </div>
