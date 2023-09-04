@@ -22,7 +22,8 @@ export interface DataType {
     website_link: string,
     bg_image_minio_url: string,
     logo_minio_url: string,
-    collection_description: string
+    collection_description: string,
+    poster_minio_url:string
 }
 
 const CollectionView = (): ReactElement<ReactNode> => {
@@ -82,28 +83,6 @@ const CollectionView = (): ReactElement<ReactNode> => {
             )
         },
         {
-            title: 'Background Image',
-            dataIndex: 'bg_image_minio_url',
-            key: 'bg_image_minio_url',
-            render: (_, { bg_image_minio_url }) => <div>
-                <Image
-                    width={100}
-                    src={bg_image_minio_url}
-                />
-            </div>
-        },
-        {
-            title: 'Poster Image',
-            dataIndex: 'bg_image_minio_url',
-            key: 'bg_image_minio_url',
-            render: (_, { bg_image_minio_url }) => <div>
-                <Image
-                    width={100}
-                    src={bg_image_minio_url}
-                />
-            </div>
-        },
-        {
             title: 'Logo Image',
             dataIndex: 'logo_minio_url',
             key: 'logo_minio_url',
@@ -111,6 +90,28 @@ const CollectionView = (): ReactElement<ReactNode> => {
                 <Image
                     width={60}
                     src={logo_minio_url}
+                />
+            </div>
+        },
+        {
+            title: 'Poster Image',
+            dataIndex: 'poster_minio_url',
+            key: 'poster_minio_url',
+            render: (_, { poster_minio_url }) => <div>
+                <Image
+                    width={100}
+                    src={poster_minio_url}
+                />
+            </div>
+        },
+        {
+            title: 'Background Image',
+            dataIndex: 'bg_image_minio_url',
+            key: 'bg_image_minio_url',
+            render: (_, { bg_image_minio_url }) => <div>
+                <Image
+                    width={100}
+                    src={bg_image_minio_url}
                 />
             </div>
         },

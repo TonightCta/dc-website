@@ -9,6 +9,7 @@ const CreativeView = React.lazy(() => import('./creative/index'));
 const CreatorView = React.lazy(() => import('./creator/index'));
 const DefaultView = React.lazy(() => import('./default/index'));
 const CategoryView = React.lazy(() => import('./category/index'));
+const MarketView = React.lazy(() => import('./market/index'));
 
 export {
     IndexView,
@@ -19,5 +20,6 @@ export {
     GalleryView,
     CreativeView,
     CreatorView,
-    DefaultView
+    DefaultView,
+    MarketView
 }

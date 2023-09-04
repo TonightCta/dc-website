@@ -76,6 +76,10 @@ export const GrallertCalssList = (p:o) => post('/gallery/class/list',p);
 export const DefaultInfo = (p:o) => post('/admin/profile/defaultinfo',p);
 //Set Default Period
 export const SetDefaultPeriod = (p:o) => post('/admin/gallery/series/setdefault',p);
+//Order List
+export const OrderList = (p:o) => post('/order/list',p);
+//Take off NFT
+export const TakeOffNFT = (p:o) => post('/admin/order/off',p);
 
 
 

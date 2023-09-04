@@ -137,7 +137,9 @@ const CreativeView = (): ReactElement<ReactNode> => {
                     Add
                 </Button>
             </p>
-            <Table columns={columns} dataSource={data} />
+            <div className="creative-table">
+                <Table columns={columns} dataSource={data} />
+            </div>
             <ComInfoModal visible={infoModal} closeModal={(val: boolean) => {
                 setInfoModal(val)
             }} competitionID={infoMsg?.competition_id as number} />

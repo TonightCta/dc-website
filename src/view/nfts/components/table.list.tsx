@@ -5,6 +5,7 @@ import { AllNfts, CollectionList } from "../../../request/api";
 import { VoiceAdmin } from "../../../App";
 import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import EditNftModal from "./edit.nft";
+import { useLocation } from "react-router-dom";
 
 interface Props {
     collection: number,
@@ -22,7 +23,9 @@ interface DataType {
     name: string;
     collection_id: number,
     fid: number,
-    collection_name: string
+    collection_name: string,
+    is_homepage_poster1: boolean,
+    is_homepage_poster2: boolean
 }
 
 const TableList = (props: Props): ReactElement => {
@@ -32,18 +35,28 @@ const TableList = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [fids, setFids] = useState<number[]>([]);
-    const [tokenID,setTokenID] = useState<number>(0);
+    const [tokenID, setTokenID] = useState<number>(0);
+    const location = useLocation();
     const f: number[] = [];
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    const onSelectChange = (newSelectedRowKeys: React.Key[],firstData?:DataType[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
-        data.forEach((item: DataType) => {
-            newSelectedRowKeys.forEach((n: React.Key) => {
-                if (item.key === n) {
-                    f.push(item.fid)
-                }
-            })
-        });
-        console.log(f);
+        if(firstData){
+            firstData.forEach((item: DataType) => {
+                newSelectedRowKeys.forEach((n: React.Key) => {
+                    if (item.key === n) {
+                        f.push(item.fid)
+                    }
+                })
+            });
+        }else{
+            data.forEach((item: DataType) => {
+                newSelectedRowKeys.forEach((n: React.Key) => {
+                    if (item.key === n) {
+                        f.push(item.fid)
+                    }
+                })
+            });
+        }
         setFids(f);
     };
     const rowSelection = {
@@ -86,27 +99,27 @@ const TableList = (props: Props): ReactElement => {
             dataIndex: 'collection_name',
             key: 'collection_name',
         },
-        {
-            title: 'Above the fold',
-            dataIndex: 'collection_name',
-            key: 'collection_name',
-            render:(_,{ collection_name }) => <p>-</p>,
-            align:'center'
-        },
-        {
-            title: 'Competition',
-            dataIndex: 'collection_name',
-            key: 'collection_name',
-            render:(_,{ collection_name }) => <p>-</p>,
-            align:'center'
-        },
-        {
-            title: 'Gallery',
-            dataIndex: 'collection_name',
-            key: 'collection_name',
-            render:(_,{ collection_name }) => <p>-</p>,
-            align:'center'
-        },
+        // {
+        //     title: 'Above the fold',
+        //     dataIndex: 'collection_name',
+        //     key: 'collection_name',
+        //     render:(_,{ collection_name }) => <p>-</p>,
+        //     align:'center'
+        // },
+        // {
+        //     title: 'Competition',
+        //     dataIndex: 'collection_name',
+        //     key: 'collection_name',
+        //     render:(_,{ collection_name }) => <p>-</p>,
+        //     align:'center'
+        // },
+        // {
+        //     title: 'Gallery',
+        //     dataIndex: 'collection_name',
+        //     key: 'collection_name',
+        //     render:(_,{ collection_name }) => <p>-</p>,
+        //     align:'center'
+        // },
     ];
     const getData = async () => {
         const collection = await CollectionList({});
@@ -136,20 +149,31 @@ const TableList = (props: Props): ReactElement => {
                 collection_name: ''
             }
         });
-        data.data.item.forEach((item: DataType) => {
+        const arr: React.Key[] = [];
+        const arr2: React.Key[] = [];
+        data.data.item.forEach((item: DataType, index: number) => {
             collection.data.data.item.forEach((coll: DataType) => {
                 if (item.collection_id === coll.collection_id) {
                     item.collection_name = coll.collection_name;
                 }
             });
+            if (item.is_homepage_poster1 && location.pathname === '/nfts-screen') {
+                arr.push(String(index));
+            }
+            if (item.is_homepage_poster2 && location.pathname === '/nfts-screen-2') {
+                arr2.push(String(index));
+            }
         });
         setData(data.data.item);
+        location.pathname === '/nfts-screen' && onSelectChange(arr,data.data.item);
+        location.pathname === '/nfts-screen-2' && onSelectChange(arr2,data.data.item);
     };
     useEffect(() => {
         getData();
-    }, [props.collection, props.category, props.label, props.sort, props.sortBy])
+        onSelectChange([]);
+    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname])
     return (
-        <>
+        <div className="table-list-mine">
             <div className="filter-oper">
                 <div className="search-box">
                     <input type="text" placeholder="Please enter" />
@@ -170,7 +194,7 @@ const TableList = (props: Props): ReactElement => {
             <EditNftModal fid={fids} visible={visible} closeModal={(val: boolean) => {
                 setVisible(val);
             }} />
-        </>
+        </div>
     )
 };
 

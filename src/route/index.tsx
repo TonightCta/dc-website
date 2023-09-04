@@ -13,6 +13,15 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route index element={<React.Suspense fallback={<LoadingMine />}>
                     <View.NftsView />
                 </React.Suspense>}></Route>
+                <Route path="/nfts-screen" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.NftsView />
+                </React.Suspense>}></Route>
+                <Route path="/nfts-screen-2" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.NftsView />
+                </React.Suspense>}></Route>
+                <Route path="/market" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.MarketView />
+                </React.Suspense>}></Route>
                 <Route path="/collection" element={<React.Suspense fallback={<LoadingMine />}>
                     <View.CollectionView />
                 </React.Suspense>}></Route>

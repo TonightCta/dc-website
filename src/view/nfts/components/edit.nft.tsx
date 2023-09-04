@@ -3,6 +3,7 @@ import { Button, Modal, Popover, Select, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { GalleryPeriod, PushScreen, SetGallery, PushScreen2, CompetitionList, JoinCompetition, GrallertCalssList } from '../../../request/api';
 import { VoiceAdmin } from "../../../App";
+import { useLocation } from "react-router-dom";
 
 interface Props {
     visible: boolean,
@@ -109,12 +110,12 @@ const EditNftModal = (props: Props): ReactElement => {
     const addScreen = () => {
         return (
             <div className="public-add-edit-btn">
-                <Button onClick={() => {
+                {location.pathname === '/nfts-screen' && <Button onClick={() => {
                     pushToScreenTop()
-                }} type="primary">一屏</Button>
-                <Button onClick={() => {
+                }} type="primary">一屏</Button>}
+                {location.pathname === '/nfts-screen-2' &&  <Button onClick={() => {
                     pushToScreenBottom()
-                }} type="primary">二屏</Button>
+                }} type="primary">二屏</Button>}
             </div>
         )
     }
@@ -189,14 +190,15 @@ const EditNftModal = (props: Props): ReactElement => {
             return
         };
         message.success('Set Successfuly');
-    }
+    };
+    const location = useLocation();
     return (
         <Modal title="Edit NFT" destroyOnClose footer={null} open={visible} onCancel={() => {
             setVisible(false);
             props.closeModal(false);
         }}>
             <div className="edit-nft">
-                <div className="show-screen show-public">
+                {location.pathname !== '/' && <div className="show-screen show-public">
                     <p className="public-title">首屏展示</p>
                     <p>
                         <Popover content={addScreen} title="添加至首页展示" trigger="click">
@@ -207,8 +209,8 @@ const EditNftModal = (props: Props): ReactElement => {
                         </Popover>
 
                     </p>
-                </div>
-                <div className="show-gallery show-public">
+                </div>}
+                {location.pathname === '/' && <div className="show-gallery show-public">
                     <p className="public-title">画廊展示</p>
                     <p>
                         <Popover content={addGallery} title="添加编辑至画廊展示" trigger="click">
@@ -219,8 +221,8 @@ const EditNftModal = (props: Props): ReactElement => {
                         </Popover>
 
                     </p>
-                </div>
-                <div className="show-creative show-public">
+                </div>}
+                {/* <div className="show-creative show-public">
                     <p className="public-title">是否参加创作大赛</p>
                     <p>
                         <Popover content={addCreative} title="添加编辑至创作大赛" trigger="click">
@@ -230,7 +232,7 @@ const EditNftModal = (props: Props): ReactElement => {
                             </Button>
                         </Popover>
                     </p>
-                </div>
+                </div> */}
             </div>
         </Modal>
     )

@@ -3,7 +3,7 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { DataType } from "..";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { VoiceAdmin } from "../../../App";
-import { CollectionEdit, CollectionAdd, UploadCollectionBG, UploadCollectionLogo, CategoryList,UploadCollectionPoster } from '../../../request/api'
+import { CollectionEdit, CollectionAdd, UploadCollectionBG, UploadCollectionLogo, CategoryList, UploadCollectionPoster } from '../../../request/api'
 
 interface Props {
     visible: boolean,
@@ -64,7 +64,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
     }
     const selectBgFile = (e: any) => {
         const file = e.target.files[0];
-        if(!file){
+        if (!file) {
             return
         }
         const reader = new FileReader();
@@ -78,7 +78,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
     };
     const selectPosterFile = (e: any) => {
         const file = e.target.files[0];
-        if(!file){
+        if (!file) {
             return
         }
         const reader = new FileReader();
@@ -92,7 +92,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
     }
     const selectLogoFile = (e: any) => {
         const file = e.target.files[0];
-        if(!file){
+        if (!file) {
             return
         }
         const reader = new FileReader();
@@ -145,36 +145,51 @@ const EditCollectionModal = (props: Props): ReactElement => {
         };
         const paramsEdit = {
             ...params,
-            category_id: props.info?.collection_id,
+            collection_id: props.info?.collection_id,
         };
 
         const result: any = props.info?.collection_id ? await CollectionEdit(paramsEdit) : await CollectionAdd(params);
-        const { status,data } = result;
+        const { status, data } = result;
         if (status !== 200) {
             message.error(result.msg)
             return
         };
         if (bgView.source) {
             const formdata = new FormData();
-            formdata.append('collection_id',props.info?.collection_id ? props.info.collection_id : data.collection_id);
-            formdata.append('bgimg',bgView.source);
+            formdata.append('collection_id', props.info?.collection_id ? props.info.collection_id : data.collection_id);
+            formdata.append('bgimg', bgView.source);
             const result = await UploadCollectionBG(formdata);
             console.log(result);
         }
         if (posterView.source) {
             const formdata = new FormData();
-            formdata.append('collection_id',props.info?.collection_id ? props.info.collection_id : data.collection_id);
-            formdata.append('poster',posterView.source);
+            formdata.append('collection_id', props.info?.collection_id ? props.info.collection_id : data.collection_id);
+            formdata.append('poster', posterView.source);
             const result = await UploadCollectionPoster(formdata);
             console.log(result);
         }
         if (logoView.source) {
             const formdata = new FormData();
-            formdata.append('collection_id',props.info?.collection_id ? props.info.collection_id : data.collection_id);
-            formdata.append('avatar',logoView.source);
+            formdata.append('collection_id', props.info?.collection_id ? props.info.collection_id : data.collection_id);
+            formdata.append('logo', logoView.source);
             const result = await UploadCollectionLogo(formdata);
             console.log(result);
-        }
+        };
+        message.success('提交成功');
+        handleCancel();
+        setLogoView({
+            view: '',
+            source: ''
+        });
+        setPosterView({
+            view: '',
+            source: ''
+        })
+        setBgView({
+            view: '',
+            source: ''
+        });
+        props.upDate();
         setWait(false);
     }
     return (
@@ -275,7 +290,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
                     <li>
                         <p className="edit-label">Poster image</p>
                         <div className="up-load-bg-box">
-                            <img src={posterView.view ? posterView.view : props.info?.bg_image_minio_url} alt="" />
+                            <img src={posterView.view ? posterView.view : props.info?.poster_minio_url} alt="" />
                             <input type="file" accept="image/*" onChange={selectPosterFile} />
                             <div className="up-mask">
                                 <CloudUploadOutlined />
@@ -286,7 +301,7 @@ const EditCollectionModal = (props: Props): ReactElement => {
                         <p className="edit-label">Logo image</p>
                         <div className="up-load-logo-box">
                             <img src={logoView.view ? logoView.view : props.info?.logo_minio_url} alt="" />
-                            <input type="file" accept="image/*" onChange={selectLogoFile}/>
+                            <input type="file" accept="image/*" onChange={selectLogoFile} />
                             <div className="up-mask">
                                 <CloudUploadOutlined />
                             </div>

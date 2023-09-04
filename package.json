@@ -2,6 +2,7 @@
   "name": "voice-admin",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "@babel/core": "^7.16.0",

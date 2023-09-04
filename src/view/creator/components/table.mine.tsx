@@ -41,7 +41,7 @@ interface Props {
 const TableMine = (props: Props): ReactElement => {
     const [data, setData] = useState<DataType[]>([]);
     const getDataList = async () => {
-        const result = props.type === 1 ? await ScreenList1({}) : await ScreenList2({});
+        const result = props.type === 1 ? await ScreenList1({page_size:30}) : await ScreenList2({page_size:24});
         const { data } = result;
         data.data.item = data.data.item.map((item: DataType, index: number) => {
             return item = {
