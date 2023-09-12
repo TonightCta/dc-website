@@ -19,6 +19,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/nfts-screen-2" element={<React.Suspense fallback={<LoadingMine />}>
                     <View.NftsView />
                 </React.Suspense>}></Route>
+                <Route path="/users" element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.UsersView />
+                </React.Suspense>}></Route>
                 <Route path="/market" element={<React.Suspense fallback={<LoadingMine />}>
                     <View.MarketView />
                 </React.Suspense>}></Route>

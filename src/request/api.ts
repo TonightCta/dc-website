@@ -45,7 +45,7 @@ export const CollectionNFTList = (p: o) => post('/collection/nft/list', p);
 //Upload Collection BG
 export const UploadCollectionBG = (p: FormData) => post('/collection/bgimg/upload', p);
 //Upload Collection Poster
-export const UploadCollectionPoster = (p:FormData) => post('/collection/poster/upload',p);
+export const UploadCollectionPoster = (p: FormData) => post('/collection/poster/upload', p);
 //Upload Collection Logo
 export const UploadCollectionLogo = (p: FormData) => post('/collection/logo/upload', p);
 //Competition List
@@ -65,22 +65,37 @@ export const CompetitionNFTList = (p: o) => post('/competition/compitems/list', 
 //Push Screen 2
 export const PushScreen2 = (p: o) => post('/admin/homepage/poster2/set', p);
 //Join Competition
-export const JoinCompetition = (p:o) => post('/compitems/submit',p);
+export const JoinCompetition = (p: o) => post('/compitems/submit', p);
 //Screen List 1
-export const ScreenList1 = (p:o) => post('/homepage/poster1/list',p);
+export const ScreenList1 = (p: o) => post('/homepage/poster1/list', p);
 //Screen List 2
-export const ScreenList2 = (p:o) => post('/homepage/poster2/list',p); 
+export const ScreenList2 = (p: o) => post('/homepage/poster2/list', p);
 //Grallery Class List
-export const GrallertCalssList = (p:o) => post('/gallery/class/list',p);
+export const GrallertCalssList = (p: o) => post('/gallery/class/list', p);
 //Default Info
-export const DefaultInfo = (p:o) => post('/admin/profile/defaultinfo',p);
+export const DefaultInfo = (p: o) => post('/admin/profile/defaultinfo', p);
 //Set Default Period
-export const SetDefaultPeriod = (p:o) => post('/admin/gallery/series/setdefault',p);
+export const SetDefaultPeriod = (p: o) => post('/admin/gallery/series/setdefault', p);
 //Order List
-export const OrderList = (p:o) => post('/order/list',p);
+export const OrderList = (p: o) => post('/order/list', p);
 //Take off NFT
-export const TakeOffNFT = (p:o) => post('/admin/order/off',p);
-
+export const TakeOffNFT = (p: o) => post('/admin/order/off', p);
+//Label Add
+export const LabelAdd = (p: o) => post('/nft/label/add', p);
+//Users List
+export const UsersList = (p: o) => post('/admin/user/list', p);
+//Users Edit
+export const UsersEdit = (p: o) => post('/admin/gallery/user/group/update', p);
+//Users Add
+export const UsersAdd = (p: o) => post('/admin/gallery/user/group/add', p);
+//Users Set
+export const UsersSet = (p: o) => post('/admin/gallery/user/group/set', p);
+//Group List
+export const GroupList = (p: o) => post('/gallery/user/grouplist', p);
+//Group Show List
+export const GropuShowList = (p: o) => post('/gallery/userlist', p);
+//Hide Group
+export const HideGroup = (p:o) => post('/admin/gallery/user/group/off',p);
 
 
 

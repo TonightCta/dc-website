@@ -1,7 +1,9 @@
 import { ReactElement, useEffect, useState } from "react";
 import { CategoryList, CollectionList, LabelList } from "../../../request/api";
-import { Checkbox, Radio, RadioChangeEvent, Select } from "antd";
+import { Button, Checkbox, Radio, RadioChangeEvent, Select } from "antd";
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { PlusOutlined } from "@ant-design/icons";
+import AddLabel from "./edit.label";
 
 interface Props {
     upCollection: (val: number) => void;
@@ -18,6 +20,7 @@ const FilterBox = (props: Props): ReactElement => {
     const [selectCategory, setSelectCategory] = useState<string>('0');
     const [labelList, setLabelList] = useState<any[]>([]);
     const [sort, setSort] = useState<number>(1);
+    const [editLabel,setEditLabel] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<number>(1);
     const getCollectionList = async () => {
         const result = await CollectionList({});
@@ -125,7 +128,31 @@ const FilterBox = (props: Props): ReactElement => {
                         <Radio value={2}>Reverse order</Radio>
                     </Radio.Group>
                 </li>
+
             </ul>
+            <p className="cut-line">----------------{`>`}Edit Labels</p>
+            <div className="labels-edit">
+                <p>Labels:</p>
+                <p>
+                    {
+                        labelList.map((item: { value: number, label: string }, index: number) => {
+                            return (
+                                <span className="labels" key={index}>{item.label}</span>
+
+                            )
+                        })
+                    }
+                    <Button type="primary" onClick={() => {
+                        setEditLabel(true)
+                    }}>
+                        <PlusOutlined />
+                        Add
+                    </Button>
+                </p>
+            </div>
+            <AddLabel visible={editLabel} closeVisible={(val:boolean) => {
+                setEditLabel(val)
+            }} uploadData={getLabelList}/>
         </div>
     )
 };

@@ -74,10 +74,10 @@ const EditNftModal = (props: Props): ReactElement => {
         getPeriodList(+value);
     };
     const selectPeriod = async (_id: number) => {
-        if (props.fid.length !== 5) {
-            message.error('画廊格式5张/期');
-            return
-        }
+        // if (props.fid.length !== 5) {
+        //     message.error('画廊格式5张/期');
+        //     return
+        // }
         const result: any = await SetGallery({
             series_id: _id,
             fids: props.fid,

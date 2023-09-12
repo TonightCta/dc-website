@@ -41,13 +41,14 @@ const items: MenuItem[] = [
     getItem('NFTs管理', '1', '/', <PieChartOutlined />),
     getItem('NFTs管理-一屏', '2', '/nfts-screen', <PieChartOutlined />),
     getItem('NFTs管理-二屏', '3', '/nfts-screen-2', <PieChartOutlined />),
-    getItem('市场管理', '4', '/market', <PieChartOutlined />),
-    getItem('类别管理', '5', '/category', <BranchesOutlined />),
-    getItem('集合管理', '6', '/collection', <AntDesignOutlined />),
-    getItem('首屏展示', '7', '/creator', <DesktopOutlined />),
-    getItem('画廊管理', '8', '/gallery', <ContainerOutlined />),
-    getItem('创作大赛管理', '9', '/creative', <AreaChartOutlined />),
-    getItem('默认数据管理', '10', '/default', <RadarChartOutlined />),
+    getItem('用户管理', '4', '/users', <PieChartOutlined />),
+    getItem('市场管理', '5', '/market', <PieChartOutlined />),
+    getItem('类别管理', '6', '/category', <BranchesOutlined />),
+    getItem('集合管理', '7', '/collection', <AntDesignOutlined />),
+    getItem('首屏展示', '8', '/creator', <DesktopOutlined />),
+    getItem('画廊管理', '9', '/gallery', <ContainerOutlined />),
+    getItem('创作大赛管理', '10', '/creative', <AreaChartOutlined />),
+    getItem('默认数据管理', '11', '/default', <RadarChartOutlined />),
 ];
 const MenuMine = (): ReactElement => {
     const [collapsed, setCollapsed] = useState(false);
@@ -70,24 +71,27 @@ const MenuMine = (): ReactElement => {
                 navigate('/nfts-screen-2');
                 break;
             case '4':
-                navigate('/market');
+                navigate('/users');
                 break;
             case '5':
-                navigate('/category');
+                navigate('/market');
                 break;
             case '6':
-                navigate('/collection');
+                navigate('/category');
                 break;
             case '7':
-                navigate('/creator');
+                navigate('/collection');
                 break;
             case '8':
-                navigate('/gallery');
+                navigate('/creator');
                 break;
             case '9':
-                navigate('/creative');
+                navigate('/gallery');
                 break;
             case '10':
+                navigate('/creative');
+                break;
+            case '11':
                 navigate('/default');
                 break;
             default:
@@ -105,26 +109,29 @@ const MenuMine = (): ReactElement => {
             case '/nfts-screen-2':
                 setDefaultMenu('3');
                 break;
-            case '/market':
+            case '/users':
                 setDefaultMenu('4');
                 break;
-            case '/category':
+            case '/market':
                 setDefaultMenu('5');
                 break;
-            case '/collection':
+            case '/category':
                 setDefaultMenu('6');
                 break;
-            case '/creator':
+            case '/collection':
                 setDefaultMenu('7');
                 break;
-            case '/gallery':
+            case '/creator':
                 setDefaultMenu('8');
                 break;
-            case '/creative':
+            case '/gallery':
                 setDefaultMenu('9');
                 break;
-            case '/default':
+            case '/creative':
                 setDefaultMenu('10');
+                break;
+            case '/default':
+                setDefaultMenu('11');
                 break;
             default:
                 setDefaultMenu('1')

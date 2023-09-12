@@ -22,9 +22,36 @@
         margin: 40px 0;
       }
     }
+    .cut-line {
+      text-align: left;
+      margin-top: 40px;
+      color: red;
+    }
+    .labels-edit {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      p {
+        display: flex;
+        align-items: center;
+        margin-right: 12px;
+        .labels {
+          display: inline-block;
+          padding: 4px 8px;
+          border: 1px solid #f50992;
+          border-radius: 4px;
+          margin-right: 24px;
+          font-size: 16px;
+        }
+        button {
+          height: 26px;
+          line-height: 16px;
+        }
+      }
+    }
   }
-  .table-list-mine{
-    img{
+  .table-list-mine {
+    img {
       max-height: 100px;
     }
   }
@@ -111,6 +138,43 @@
       border-radius: 8px;
       cursor: pointer;
       margin-right: 16px;
+    }
+  }
+}
+.edit-msg {
+  padding: 32px 0 12px;
+  ul {
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      p {
+        width: 100px;
+        sup {
+          color: red;
+        }
+      }
+      input {
+        flex: 1;
+        height: 44px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding-left: 12px;
+        font-size: 15px;
+      }
+    }
+  }
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+      width: 120px;
+      height: 40px;
+      margin-right: 24px;
+    }
+    button:last-child {
+      margin-right: 0;
     }
   }
 }
