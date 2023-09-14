@@ -64,7 +64,7 @@ const EditNftModal = (props: Props): ReactElement => {
         setCompetitionList(data.data.item)
     }
     useEffect(() => {
-        getPeriodList();
+        // getPeriodList();
         getCompetitionList();
         getClassList();
         setVisible(props.visible)
@@ -79,7 +79,7 @@ const EditNftModal = (props: Props): ReactElement => {
         //     return
         // }
         const result: any = await SetGallery({
-            series_id: _id,
+            class_id: _id,
             fids: props.fid,
             sender: state.address
         });
@@ -122,7 +122,7 @@ const EditNftModal = (props: Props): ReactElement => {
     const addGallery = () => {
         return (
             <div className="public-add-edit edit-btn">
-                <div className="select-box">
+                {/* <div className="select-box">
                     <p>期数:</p>
                     <Select
                         defaultValue={'1'}
@@ -131,10 +131,10 @@ const EditNftModal = (props: Props): ReactElement => {
                         placeholder="Select"
                         options={classList}
                     />
-                </div>
+                </div> */}
                 <ul>
                     {
-                        periodList.map((item: { value: string, label: string }, index: number) => {
+                        classList.map((item: { value: number, label: string }, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
                                     selectPeriod(+item.value)

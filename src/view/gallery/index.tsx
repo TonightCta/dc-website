@@ -51,7 +51,8 @@ const columns: ColumnsType<DataType> = [
 const GalleryView = (): ReactElement<ReactNode> => {
     const handleClassChange = (value: string) => {
         setSelectClass(value);
-        getPeriodInfo(+value);
+        // getPeriodInfo(+value);
+        getGalleryList(+value)
     }
     const [classList, setClassList] = useState<{ value: string, label: string }[]>([])
     const [wait, setWait] = useState<boolean>(false);
@@ -59,10 +60,10 @@ const GalleryView = (): ReactElement<ReactNode> => {
     const [selectPer, setSelectPer] = useState<string>('1');
     const [selectClass, setSelectClass] = useState<string>('1');
     const [galleryList, setGallery] = useState<DataType[]>([]);
-    const getGalleryList = async () => {
+    const getGalleryList = async (value?:number) => {
         setWait(true);
         const result = await GalleryList({
-            series_id: +selectPer,
+            class_id: value ? value : +selectClass,
             page_size: 500
         });
         setWait(false);
@@ -109,11 +110,11 @@ const GalleryView = (): ReactElement<ReactNode> => {
     };
     useEffect(() => {
         getClassInfo();
-        getPeriodInfo();
+        // getPeriodInfo();
     }, [])
     return (
         <div className="gallery-view">
-            <ClassList/>
+            {/* <ClassList/> */}
             <div className="data-title">
                 <p>当前展示:</p>
                 <Select
@@ -122,7 +123,7 @@ const GalleryView = (): ReactElement<ReactNode> => {
                     onChange={handleClassChange}
                     options={classList}
                 />
-                <ul>
+                {/* <ul>
                     {
                         periodList.map((item: { value: string, label: string }, index: number) => {
                             return (
@@ -134,7 +135,7 @@ const GalleryView = (): ReactElement<ReactNode> => {
                             )
                         })
                     }
-                </ul>
+                </ul> */}
             </div>
             <div className="data-list">
                 <Table loading={wait} columns={columns} dataSource={galleryList} />
