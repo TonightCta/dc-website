@@ -1,9 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import { CategoryList, CollectionList, LabelList } from "../../../request/api";
-import { Button, Checkbox, Radio, RadioChangeEvent, Select } from "antd";
+import { Button, Checkbox, Radio, RadioChangeEvent, Select, Switch } from "antd";
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import AddLabel from "./edit.label";
+import { useLocation } from "react-router-dom";
 
 interface Props {
     upCollection: (val: number) => void;
@@ -11,6 +12,7 @@ interface Props {
     upLabel: (val: number[]) => void;
     upSort: (val: number) => void;
     upSortBy: (val: number) => void;
+    upPoster:(val:boolean) => void
 }
 
 const FilterBox = (props: Props): ReactElement => {
@@ -20,8 +22,15 @@ const FilterBox = (props: Props): ReactElement => {
     const [selectCategory, setSelectCategory] = useState<string>('0');
     const [labelList, setLabelList] = useState<any[]>([]);
     const [sort, setSort] = useState<number>(1);
-    const [editLabel,setEditLabel] = useState<boolean>(false);
+    const [editLabel, setEditLabel] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<number>(1);
+    const [onlyPoster, setOnlyPoster] = useState<boolean>(false);
+    const location = useLocation();
+    const [label, setLabel] = useState<{ id: number, name: string, desc: string }>({
+        id: 0,
+        name: '',
+        desc: ''
+    })
     const getCollectionList = async () => {
         const result = await CollectionList({});
         const { data } = result;
@@ -60,7 +69,7 @@ const FilterBox = (props: Props): ReactElement => {
         data.data.item = data.data.item.map((item: any) => {
             return {
                 value: item.label_id,
-                label: item.label_name
+                label: item.label_name,
             }
         });
         setLabelList(data.data.item);
@@ -88,6 +97,10 @@ const FilterBox = (props: Props): ReactElement => {
     }
     const onTagChange = (item: CheckboxValueType[]) => {
         props.upLabel(item as number[]);
+    }
+    const onPoster = (checked: boolean) => {
+        setOnlyPoster(checked);
+        props.upPoster(checked)
     }
     return (
         <div className="filter-box">
@@ -128,31 +141,49 @@ const FilterBox = (props: Props): ReactElement => {
                         <Radio value={2}>Reverse order</Radio>
                     </Radio.Group>
                 </li>
-
+                {(location.pathname === '/nfts-screen' || location.pathname === '/nfts-screen-2') && <li>
+                    <p>Show only posters:</p>
+                    <Switch checked={onlyPoster} onChange={onPoster} />
+                </li>}
             </ul>
             <p className="cut-line">----------------{`>`}Edit Labels</p>
             <div className="labels-edit">
                 <p>Labels:</p>
-                <p>
+                <div>
                     {
                         labelList.map((item: { value: number, label: string }, index: number) => {
                             return (
-                                <span className="labels" key={index}>{item.label}</span>
+                                <p className="labels" key={index} onClick={() => {
+                                    setLabel({
+                                        name: item.label,
+                                        id: item.value,
+                                        desc: ''
+                                    });
+                                    setEditLabel(true)
+                                }}>
+                                    {item.label}
+                                    <EditOutlined />
+                                </p>
 
                             )
                         })
                     }
                     <Button type="primary" onClick={() => {
+                        setLabel({
+                            name: '',
+                            id: 0,
+                            desc: ''
+                        });
                         setEditLabel(true)
                     }}>
                         <PlusOutlined />
                         Add
                     </Button>
-                </p>
+                </div>
             </div>
-            <AddLabel visible={editLabel} closeVisible={(val:boolean) => {
+            <AddLabel name={label.name} desc={label?.desc} id={label.id} visible={editLabel} closeVisible={(val: boolean) => {
                 setEditLabel(val)
-            }} uploadData={getLabelList}/>
+            }} uploadData={getLabelList} />
         </div>
     )
 };

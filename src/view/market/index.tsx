@@ -27,9 +27,10 @@ interface DataType {
 const MarketView = (): ReactElement<ReactNode> => {
     const [data, setData] = useState<DataType[]>([]);
     const { state } = useContext(VoiceAdmin);
+    const [wait, setWait] = useState<boolean>(false);
     const getDataList = async () => {
+        setWait(true);
         const result = await OrderList({ page_size: 500 });
-        console.log(result);
         const { data } = result;
         data.data.item = data.data.item.map((item: DataType, index: number) => {
             return item = {
@@ -37,6 +38,7 @@ const MarketView = (): ReactElement<ReactNode> => {
                 key: String(index),
             }
         });
+        setWait(false);
         setData(data.data.item);
     };
     const [orderID, setOrderID] = useState<string>('');
@@ -108,7 +110,6 @@ const MarketView = (): ReactElement<ReactNode> => {
             sender: state.address,
             order_ids: [+orderID]
         });
-        console.log(result);
         const { status } = result;
         if (status !== 200) {
             message.error(result.msg);
@@ -120,7 +121,7 @@ const MarketView = (): ReactElement<ReactNode> => {
     return (
         <div className="market-view">
             <p className="view-title">市场NFT列表(已上架)</p>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} loading={wait} dataSource={data} />
         </div>
     )
 };

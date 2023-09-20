@@ -95,8 +95,11 @@ export const GroupList = (p: o) => post('/gallery/user/grouplist', p);
 //Group Show List
 export const GropuShowList = (p: o) => post('/gallery/userlist', p);
 //Hide Group
-export const HideGroup = (p:o) => post('/admin/gallery/user/group/off',p);
-
+export const HideGroup = (p: o) => post('/admin/gallery/user/group/off', p);
+//Update Label
+export const UpdateLabel = (p: o) => post('/nft/label/update', p);
+//Delete Label
+export const DeleteLabel = (p: o) => post('/nft/label/off', p);
 
 
 

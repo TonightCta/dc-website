@@ -1,15 +1,19 @@
-import { Button, Modal, message } from "antd";
+import { Button, Modal, Switch, message } from "antd";
 import { ReactElement, useEffect, useState } from "react";
-import { LabelAdd } from '../../../request/api'
+import { LabelAdd,UpdateLabel,DeleteLabel } from '../../../request/api'
 
 interface Props {
     visible: boolean,
     closeVisible: (val: boolean) => void,
     uploadData: () => void,
+    id?: number,
+    name?: string,
+    desc?: string
 }
 
 const AddLabel = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
+    const [show, setShow] = useState<boolean>(true);
     const [edit, setEdit] = useState<{ name: string, desc: string }>({
         name: '',
         desc: ''
@@ -20,35 +24,45 @@ const AddLabel = (props: Props): ReactElement => {
         !props.visible && setEdit({
             name: '',
             desc: ''
-        })
+        });
+        setShow(true);
+        props.visible && props.name && setEdit({
+            name: props.name,
+            desc: props.desc || ''
+        });
     }, [props.visible]);
     const submitEdit = async () => {
         if (!edit.name) {
             message.error('Please enter the name');
             return
         };
-        if (!edit.desc) {
-            message.error('Please enter the description');
-            return
-        };
         setWait(true);
-        const result: any = await LabelAdd({
+        const result: any = props.name 
+        ? await UpdateLabel({
+            label_id:props.id,
+            name:edit.name
+        })
+        : await LabelAdd({
             name: edit.name,
             description: edit.desc,
         });
+        props.name && !show && await DeleteLabel({label_id:props.id});
         setWait(false);
         const { status } = result;
         if (status !== 200) {
             message.error(result.msg);
             return
         }
-        message.success(`Added successfully`);
+        message.success(`${props.name ? 'Update' : 'Added'} successfully`);
         setVisible(false);
         props.closeVisible(false);
         props.uploadData();
+    };
+    const onChange = (checked: boolean) => {
+        setShow(checked);
     }
     return (
-        <Modal destroyOnClose title="Add Label" width={500} footer={null} open={visible} onCancel={() => {
+        <Modal destroyOnClose title={`${!props.name ? 'Add' : 'Edit'} Label`} width={500} footer={null} open={visible} onCancel={() => {
             setVisible(false);
             props.closeVisible(false);
         }}>
@@ -64,13 +78,8 @@ const AddLabel = (props: Props): ReactElement => {
                         }} />
                     </li>
                     <li>
-                        <p><sup>*</sup>Description:</p>
-                        <input type="text" placeholder="Please enter the description" value={edit.desc} onChange={(e) => {
-                            setEdit({
-                                ...edit,
-                                desc: e.target.value
-                            })
-                        }} />
+                        <p><sup>*</sup>Show:</p>
+                        <Switch defaultChecked checked={show} disabled={!props.name} onChange={onChange} />
                     </li>
                 </ul>
                 <p className="submit-btn">

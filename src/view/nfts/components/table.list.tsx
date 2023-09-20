@@ -12,7 +12,8 @@ interface Props {
     category: number,
     label: number[],
     sort: number,
-    sortBy: number
+    sortBy: number,
+    poster:boolean
 }
 
 interface DataType {
@@ -38,9 +39,9 @@ const TableList = (props: Props): ReactElement => {
     const [tokenID, setTokenID] = useState<number>(0);
     const location = useLocation();
     const f: number[] = [];
-    const onSelectChange = (newSelectedRowKeys: React.Key[],firstData?:DataType[]) => {
+    const onSelectChange = (newSelectedRowKeys: React.Key[], firstData?: DataType[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
-        if(firstData){
+        if (firstData) {
             firstData.forEach((item: DataType) => {
                 newSelectedRowKeys.forEach((n: React.Key) => {
                     if (item.key === n) {
@@ -48,7 +49,7 @@ const TableList = (props: Props): ReactElement => {
                     }
                 })
             });
-        }else{
+        } else {
             data.forEach((item: DataType) => {
                 newSelectedRowKeys.forEach((n: React.Key) => {
                     if (item.key === n) {
@@ -63,6 +64,11 @@ const TableList = (props: Props): ReactElement => {
         selectedRowKeys,
         onChange: onSelectChange,
     };
+    const [paginationProps, setPaginationProps] = useState({
+        current: 1,
+        pageSize: 10,
+        total: 100,
+    });
     const columns: ColumnsType<DataType> = [
         {
             title: 'Fid',
@@ -132,9 +138,11 @@ const TableList = (props: Props): ReactElement => {
             label_ids: props.label,
             sender: state.address,
             page_size: 500,
-            page_num: 1,
+            page_num: paginationProps.current,
             sort: props.sort,
-            sort_by: props.sortBy
+            sort_by: props.sortBy,
+            is_homepage_poster1:location.pathname !== '/nfts-screen' ? false : (props.poster ? true : false),
+            is_homepage_poster2:location.pathname !== '/nfts-screen-2' ? false : (props.poster ? true : false),
         });
         setWait(false);
         const { data } = result;
@@ -164,14 +172,20 @@ const TableList = (props: Props): ReactElement => {
                 arr2.push(String(index));
             }
         });
+        setPaginationProps({
+            ...paginationProps,
+            total: data.data.total
+        })
         setData(data.data.item);
-        location.pathname === '/nfts-screen' && onSelectChange(arr,data.data.item);
-        location.pathname === '/nfts-screen-2' && onSelectChange(arr2,data.data.item);
+        location.pathname === '/nfts-screen' && onSelectChange(arr, data.data.item);
+        location.pathname === '/nfts-screen-2' && onSelectChange(arr2, data.data.item);
     };
     useEffect(() => {
         getData();
         onSelectChange([]);
-    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname])
+    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname, paginationProps.current,props.poster]);
+
+
     return (
         <div className="table-list-mine">
             <div className="filter-oper">
@@ -190,6 +204,13 @@ const TableList = (props: Props): ReactElement => {
                     </Button>
                 </div>
             </div>
+            {/* pagination={paginationProps} */}
+            {/* onChange={(e) => {
+                setPaginationProps({
+                    ...paginationProps,
+                    current: +(e.current as any)
+                })
+            }} */}
             <Table rowSelection={rowSelection} dataSource={data} loading={wait} scroll={{ y: 560 }} columns={columns} />
             <EditNftModal fid={fids} visible={visible} closeModal={(val: boolean) => {
                 setVisible(val);
