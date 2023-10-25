@@ -31,12 +31,16 @@ const CreativeView = (): ReactElement<ReactNode> => {
             page_size: 500
         });
         const { data } = result;
+        if (!data.data.item) {
+            setData([]);
+            return
+        }
         data.data.item = data.data.item.map((item: DataType, index: number) => {
             return {
                 ...item,
                 key: index
             }
-        })
+        });
         setData(data.data.item)
     };
     const columns: ColumnsType<DataType> = [

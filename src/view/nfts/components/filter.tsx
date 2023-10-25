@@ -12,7 +12,7 @@ interface Props {
     upLabel: (val: number[]) => void;
     upSort: (val: number) => void;
     upSortBy: (val: number) => void;
-    upPoster:(val:boolean) => void
+    upPoster: (val: boolean) => void
 }
 
 const FilterBox = (props: Props): ReactElement => {
@@ -26,8 +26,9 @@ const FilterBox = (props: Props): ReactElement => {
     const [sortBy, setSortBy] = useState<number>(1);
     const [onlyPoster, setOnlyPoster] = useState<boolean>(false);
     const location = useLocation();
-    const [label, setLabel] = useState<{ id: number, name: string, desc: string }>({
+    const [label, setLabel] = useState<{ id: number, name: string, desc: string, bg: string }>({
         id: 0,
+        bg: '',
         name: '',
         desc: ''
     })
@@ -64,12 +65,13 @@ const FilterBox = (props: Props): ReactElement => {
         setCategoryList(data.data.item);
     }
     const getLabelList = async () => {
-        const result = await LabelList({});
+        const result = await LabelList({page_size:100});
         const { data } = result;
         data.data.item = data.data.item.map((item: any) => {
             return {
                 value: item.label_id,
                 label: item.label_name,
+                label_icon: item.label_icon
             }
         });
         setLabelList(data.data.item);
@@ -151,12 +153,13 @@ const FilterBox = (props: Props): ReactElement => {
                 <p>Labels:</p>
                 <div>
                     {
-                        labelList.map((item: { value: number, label: string }, index: number) => {
+                        labelList.map((item: { value: number, label: string, label_icon: string }, index: number) => {
                             return (
                                 <p className="labels" key={index} onClick={() => {
                                     setLabel({
                                         name: item.label,
                                         id: item.value,
+                                        bg: item.label_icon,
                                         desc: ''
                                     });
                                     setEditLabel(true)
@@ -171,6 +174,7 @@ const FilterBox = (props: Props): ReactElement => {
                     <Button type="primary" onClick={() => {
                         setLabel({
                             name: '',
+                            bg: '',
                             id: 0,
                             desc: ''
                         });
@@ -181,7 +185,7 @@ const FilterBox = (props: Props): ReactElement => {
                     </Button>
                 </div>
             </div>
-            <AddLabel name={label.name} desc={label?.desc} id={label.id} visible={editLabel} closeVisible={(val: boolean) => {
+            <AddLabel name={label.name} bg={label.bg} desc={label?.desc} id={label.id} visible={editLabel} closeVisible={(val: boolean) => {
                 setEditLabel(val)
             }} uploadData={getLabelList} />
         </div>

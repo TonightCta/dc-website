@@ -22,8 +22,8 @@ export const useMetamask = () => {
                     });
                     const { data } = account;
                     if (!data) {
+                        navigate('/login')
                         message.error('You do not have permission');
-                        navigate('/')
                         return 'error'
                     } else {
                         dispatch({
@@ -62,6 +62,7 @@ export const useMetamask = () => {
                 user_address: result[0]
             });
             const { data } = account;
+            // console.log(account)
             if (!data) {
                 message.error('You do not have permission');
                 return 'error'

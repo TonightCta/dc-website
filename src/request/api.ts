@@ -100,6 +100,11 @@ export const HideGroup = (p: o) => post('/admin/gallery/user/group/off', p);
 export const UpdateLabel = (p: o) => post('/nft/label/update', p);
 //Delete Label
 export const DeleteLabel = (p: o) => post('/nft/label/off', p);
-
+//Set Category
+export const SetCategory = (p: o) => post('/admin/nft/category/set', p);
+//Set Labels
+export const SetLabels = (p: o) => post('/admin/nft/label/set', p);
+//Up Labels Bg
+export const UpLabelsBg = (p: o) => post('/nft/label/uploadicon', p);
 
 
