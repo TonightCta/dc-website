@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
-import { Button, Table, Image } from "antd";
+import { Button, Table, Image, Tooltip } from "antd";
 import { EditOutlined, FileTextOutlined, PlusOutlined } from "@ant-design/icons";
 import { CompetitionList } from "../../request/api";
 import type { ColumnsType } from 'antd/es/table';
@@ -53,6 +53,9 @@ const CreativeView = (): ReactElement<ReactNode> => {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
+            render: (_, { description }) => <Tooltip title={<div dangerouslySetInnerHTML={{ __html: description }}></div>}>
+                <p className="text-overflow">{description}</p>
+            </Tooltip>
         },
         {
             title: 'Logo',

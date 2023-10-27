@@ -5,9 +5,9 @@
     justify-content: space-between;
     justify-items: center;
   }
-  .creative-table{
-    img{
-        max-height: 100px;
+  .creative-table {
+    img {
+      max-height: 100px;
     }
   }
   .oper-btn {
@@ -115,6 +115,14 @@
         }
       }
     }
+    .other-text {
+      flex-direction: column;
+      text-align: left;
+      p {
+        width: 100%;
+        margin-bottom: 24px !important;
+      }
+    }
   }
   .submit-btn {
     text-align: center;
@@ -128,4 +136,8 @@
       margin-right: 0;
     }
   }
+}
+.text-editor {
+  height: 300px;
+  overflow: auto;
 }

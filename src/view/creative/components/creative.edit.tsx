@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { CompetitionEdit, CompetitionAdd, UploadCompetitionPoster, UploadCompetitionBG, UploadCompetitionLogo } from '../../../request/api'
 import type { DatePickerProps } from 'antd';
 import { DateConvert } from "../../../utils";
+import TextEditor from "./text.editor";
 
 
 interface Props {
@@ -101,7 +102,6 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         })
     }, [props.visible]);
     const onStartTime: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
         setInput({
             ...input,
             start_time: dateString
@@ -128,7 +128,6 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         };
 
         const result: any = props.info?.competition_id ? await CompetitionEdit(paramsEdit) : await CompetitionAdd(params);
-        console.log(result);
         const { status, data } = result;
         if (status !== 200) {
             message.error(result.msg)
@@ -139,21 +138,18 @@ const EditCompetitionModal = (props: Props): ReactElement => {
             formdata.append('competition_id', props.info?.competition_id ? props.info?.competition_id : data.competition_id);
             formdata.append('bgimg', bgView.source);
             const up = await UploadCompetitionBG(formdata);
-            console.log(up);
         }
         if (posterView.source) {
             const formdata = new FormData();
             formdata.append('competition_id', props.info?.competition_id ? props.info?.competition_id : data.competition_id);
             formdata.append('poster', posterView.source);
             const up = await UploadCompetitionPoster(formdata);
-            console.log(up);
         }
         if (logoView.source) {
             const formdata = new FormData();
             formdata.append('competition_id', props.info?.competition_id ? props.info?.competition_id : data.competition_id);
             formdata.append('logo', logoView.source);
             const up = await UploadCompetitionLogo(formdata);
-            console.log(up);
         };
         message.success('提交成功');
         handleCancel();
@@ -173,7 +169,7 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         setWait(false);
     }
     return (
-        <Modal title={`${props.info?.competition_id ? 'Edit' : 'Add to'} Competition`} width={600} footer={null} open={visible} onCancel={handleCancel}>
+        <Modal title={`${props.info?.competition_id ? 'Edit' : 'Add to'} Competition`} width={800} footer={null} open={visible} onCancel={handleCancel}>
             <div className="edit-collection">
                 <ul>
                     <li>
@@ -185,12 +181,12 @@ const EditCompetitionModal = (props: Props): ReactElement => {
                             })
                         }} />
                     </li>
-                    <li>
+                    <li className="other-text">
                         <p className="edit-label">Collection description</p>
-                        <textarea placeholder="Please enter the collection description" value={input.desc} onChange={(e) => {
+                        <TextEditor desc={input.desc} visible={visible} updateHtml={(val: string) => {
                             setInput({
                                 ...input,
-                                desc: e.target.value
+                                desc: val
                             })
                         }} />
                     </li>
