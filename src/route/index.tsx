@@ -11,6 +11,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <View.IndexView />
             </React.Suspense>}>
                 <Route index element={<React.Suspense fallback={<LoadingMine />}>
+                    <View.OverviewIndex />
+                </React.Suspense>}></Route>
+                <Route path="/nfts-screen-f" element={<React.Suspense fallback={<LoadingMine />}>
                     <View.NftsView />
                 </React.Suspense>}></Route>
                 <Route path="/nfts-screen" element={<React.Suspense fallback={<LoadingMine />}>

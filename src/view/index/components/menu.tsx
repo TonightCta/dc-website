@@ -1,13 +1,16 @@
 import React, { ReactElement, useContext, useState } from "react";
 import {
+    DashboardOutlined,
     AntDesignOutlined,
     AreaChartOutlined,
+    AuditOutlined,
     BranchesOutlined,
+    ContactsOutlined,
     ContainerOutlined,
     DesktopOutlined,
+    InsertRowAboveOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    PieChartOutlined,
     PoweroffOutlined,
     RadarChartOutlined,
 } from '@ant-design/icons';
@@ -18,7 +21,6 @@ import { useEffect } from "react";
 import { VoiceAdmin } from "../../../App";
 import { Type } from "../../../utils/types";
 type MenuItem = Required<MenuProps>['items'][number];
-
 
 const getItem = (
     label: React.ReactNode,
@@ -38,17 +40,18 @@ const getItem = (
     } as MenuItem;
 }
 const items: MenuItem[] = [
-    getItem('NFTs管理', '1', '/', <PieChartOutlined />),
-    getItem('NFTs管理-一屏', '2', '/nfts-screen', <PieChartOutlined />),
-    getItem('NFTs管理-二屏', '3', '/nfts-screen-2', <PieChartOutlined />),
-    getItem('用户管理', '4', '/users', <PieChartOutlined />),
-    getItem('市场管理', '5', '/market', <PieChartOutlined />),
-    getItem('类别管理', '6', '/category', <BranchesOutlined />),
-    getItem('集合管理', '7', '/collection', <AntDesignOutlined />),
-    getItem('首屏展示', '8', '/creator', <DesktopOutlined />),
-    getItem('画廊管理', '9', '/gallery', <ContainerOutlined />),
-    getItem('创作大赛管理', '10', '/creative', <AreaChartOutlined />),
-    getItem('默认数据管理', '11', '/default', <RadarChartOutlined />),
+    getItem('总览', '1', '/', <DashboardOutlined />),
+    getItem('NFTs管理', '2', '/nfts-screen-f', <InsertRowAboveOutlined />),
+    getItem('NFTs管理-一屏', '3', '/nfts-screen', <InsertRowAboveOutlined />),
+    getItem('NFTs管理-二屏', '4', '/nfts-screen-2', <InsertRowAboveOutlined />),
+    getItem('用户管理', '5', '/users', <ContactsOutlined />),
+    getItem('市场管理', '6', '/market', <AuditOutlined />),
+    getItem('类别管理', '7', '/category', <BranchesOutlined />),
+    getItem('集合管理', '8', '/collection', <AntDesignOutlined />),
+    getItem('首屏展示', '9', '/creator', <DesktopOutlined />),
+    getItem('画廊管理', '10', '/gallery', <ContainerOutlined />),
+    getItem('创作大赛管理', '11', '/creative', <AreaChartOutlined />),
+    getItem('默认数据管理', '12', '/default', <RadarChartOutlined />),
 ];
 const MenuMine = (): ReactElement => {
     const [collapsed, setCollapsed] = useState(false);
@@ -65,33 +68,36 @@ const MenuMine = (): ReactElement => {
                 navigate('/');
                 break;
             case '2':
-                navigate('/nfts-screen');
+                navigate('/nfts-screen-f');
                 break;
             case '3':
-                navigate('/nfts-screen-2');
+                navigate('/nfts-screen');
                 break;
             case '4':
-                navigate('/users');
+                navigate('/nfts-screen-2');
                 break;
             case '5':
-                navigate('/market');
+                navigate('/users');
                 break;
             case '6':
-                navigate('/category');
+                navigate('/market');
                 break;
             case '7':
-                navigate('/collection');
+                navigate('/category');
                 break;
             case '8':
-                navigate('/creator');
+                navigate('/collection');
                 break;
             case '9':
-                navigate('/gallery');
+                navigate('/creator');
                 break;
             case '10':
-                navigate('/creative');
+                navigate('/gallery');
                 break;
             case '11':
+                navigate('/creative');
+                break;
+            case '12':
                 navigate('/default');
                 break;
             default:
@@ -103,35 +109,38 @@ const MenuMine = (): ReactElement => {
             case '/':
                 setDefaultMenu('1');
                 break;
-            case '/nfts-screen':
+            case '/nfts-screen-f':
                 setDefaultMenu('2');
                 break;
-            case '/nfts-screen-2':
+            case '/nfts-screen':
                 setDefaultMenu('3');
                 break;
-            case '/users':
+            case '/nfts-screen-2':
                 setDefaultMenu('4');
                 break;
-            case '/market':
+            case '/users':
                 setDefaultMenu('5');
                 break;
-            case '/category':
+            case '/market':
                 setDefaultMenu('6');
                 break;
-            case '/collection':
+            case '/category':
                 setDefaultMenu('7');
                 break;
-            case '/creator':
+            case '/collection':
                 setDefaultMenu('8');
                 break;
-            case '/gallery':
+            case '/creator':
                 setDefaultMenu('9');
                 break;
-            case '/creative':
+            case '/gallery':
                 setDefaultMenu('10');
                 break;
-            case '/default':
+            case '/creative':
                 setDefaultMenu('11');
+                break;
+            case '/default':
+                setDefaultMenu('12');
                 break;
             default:
                 setDefaultMenu('1')

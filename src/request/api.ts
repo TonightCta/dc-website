@@ -106,5 +106,7 @@ export const SetCategory = (p: o) => post('/admin/nft/category/set', p);
 export const SetLabels = (p: o) => post('/admin/nft/label/set', p);
 //Up Labels Bg
 export const UpLabelsBg = (p: o) => post('/nft/label/uploadicon', p);
+//Overview Info
+export const OverViewInfo = (p: o) => post('/admin/statistics/info', p);
 
 

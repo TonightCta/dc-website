@@ -1,0 +1,80 @@
+.overview-index {
+  overflow: hidden;
+  h1 {
+    text-align: left;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  .flex-index {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    .public-box {
+      width: calc(50% - 20px);
+      margin-right: 40px;
+      height: 400px;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 0 10px 2px #eee;
+      padding: 24px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      .echarts-box,
+      .echarts-box-o {
+        flex: 1;
+        width: 100%;
+      }
+      .public-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        .select-filter {
+          width: 120px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          cursor: pointer;
+          p {
+            margin-right: 8px;
+            font-size: 14px;
+          }
+          span {
+            color: #333;
+            font-size: 12px;
+          }
+        }
+      }
+      .echarts-box {
+        width: 115%;
+        margin-left: -5%;
+        margin-top: -5%;
+      }
+    }
+    .contest-box {
+      .public-title {
+        margin-bottom: 42px;
+      }
+    }
+    .public-box:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+}
+.select-date-box {
+  ul {
+    li {
+      cursor: pointer;
+      padding: 8px 12px;
+      transition: .3s all;
+      border-radius: 8px;
+    }
+    li:hover {
+      background-color: #eee;
+    }
+  }
+}
