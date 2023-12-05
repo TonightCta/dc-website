@@ -13,7 +13,7 @@ interface Props {
     label: number[],
     sort: number,
     sortBy: number,
-    poster:boolean
+    poster: boolean
 }
 
 interface DataType {
@@ -137,12 +137,12 @@ const TableList = (props: Props): ReactElement => {
             category_id: props.category,
             label_ids: props.label,
             sender: state.address,
-            page_size: 500,
+            page_size: 10,
             page_num: paginationProps.current,
             sort: props.sort,
             sort_by: props.sortBy,
-            is_homepage_poster1:location.pathname !== '/nfts-screen' ? false : (props.poster ? true : false),
-            is_homepage_poster2:location.pathname !== '/nfts-screen-2' ? false : (props.poster ? true : false),
+            is_homepage_poster1: location.pathname !== '/nfts-screen' ? false : (props.poster ? true : false),
+            is_homepage_poster2: location.pathname !== '/nfts-screen-2' ? false : (props.poster ? true : false),
         });
         setWait(false);
         const { data } = result;
@@ -183,9 +183,7 @@ const TableList = (props: Props): ReactElement => {
     useEffect(() => {
         getData();
         onSelectChange([]);
-    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname, paginationProps.current,props.poster]);
-
-
+    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname, paginationProps.current, props.poster]);
     return (
         <div className="table-list-mine">
             <div className="filter-oper">
@@ -211,7 +209,15 @@ const TableList = (props: Props): ReactElement => {
                     current: +(e.current as any)
                 })
             }} */}
-            <Table rowSelection={rowSelection} dataSource={data} loading={wait} scroll={{ y: 560 }} columns={columns} />
+            <Table rowSelection={rowSelection} dataSource={data} loading={wait} scroll={{ y: 560 }} columns={columns} pagination={{
+                total: paginationProps.total,
+                onChange: (e) => {
+                    setPaginationProps({
+                        ...paginationProps,
+                        current: e
+                    })
+                }
+            }} />
             <EditNftModal fid={fids} visible={visible} closeModal={(val: boolean) => {
                 setVisible(val);
             }} />

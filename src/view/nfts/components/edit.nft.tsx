@@ -263,7 +263,7 @@ const EditNftModal = (props: Props): ReactElement => {
             props.closeModal(false);
         }}>
             <div className="edit-nft">
-                {location.pathname !== '/' && <div className="show-screen show-public">
+                {location.pathname !== '/nfts-screen-f' && <div className="show-screen show-public">
                     <p className="public-title">首屏展示</p>
                     <p>
                         <Popover content={addScreen} title="添加至首页展示" trigger="click">
@@ -274,7 +274,7 @@ const EditNftModal = (props: Props): ReactElement => {
                         </Popover>
                     </p>
                 </div>}
-                {location.pathname === '/' && <div className="show-gallery show-public">
+                {location.pathname === '/nfts-screen-f' && <div className="show-gallery show-public">
                     <p className="public-title">画廊展示</p>
                     <p>
                         <Popover content={addGallery} title="添加编辑至画廊展示" trigger="click">

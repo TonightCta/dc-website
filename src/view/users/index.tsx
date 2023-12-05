@@ -78,6 +78,10 @@ const UsersView = (): ReactElement<ReactNode> => {
     const [operAddress, setOperAddress] = useState<string[]>([]);
     const [groupList, setGroupList] = useState<Group[]>([]);
     const [activeList, setActiveList] = useState<number>(99);
+    const [page, setPage] = useState<{ total: number, page: number }>({
+        total: 10,
+        page: 1
+    })
     const [groupInfo, setGroupInfo] = useState<Group>({
         group_id: 0,
         group_name: '',
@@ -88,7 +92,8 @@ const UsersView = (): ReactElement<ReactNode> => {
         setWait(true);
         const result = await UsersList({
             sender: state.address,
-            page_size: 500
+            page_size: 10,
+            page_num: page.page,
         });
         const { data } = result;
         data.data.item = data.data.item.map((item: DataType, index: number) => {
@@ -98,6 +103,10 @@ const UsersView = (): ReactElement<ReactNode> => {
             }
         });
         setWait(false);
+        setPage({
+            ...page,
+            total: data.data.total
+        });
         setData(data.data.item);
     };
     const getGroupList = async () => {
@@ -112,7 +121,6 @@ const UsersView = (): ReactElement<ReactNode> => {
                 }
             }
         });
-        console.log(data.data.item)
         setGroupList(data.data.item);
     };
     const getGroupDetail = async () => {
@@ -136,7 +144,10 @@ const UsersView = (): ReactElement<ReactNode> => {
     }, []);
     useEffect(() => {
         activeList == 99 ? getDataList() : getGroupDetail();
-    }, [activeList])
+    }, [activeList]);
+    useEffect(() => {
+        getDataList()
+    }, [page.page])
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             const arr: string[] = [];
@@ -218,6 +229,15 @@ const UsersView = (): ReactElement<ReactNode> => {
                     rowSelection={{
                         type: 'checkbox',
                         ...rowSelection,
+                    }}
+                    pagination={{
+                        total: page.total,
+                        onChange: (e) => {
+                            setPage({
+                                ...page,
+                                page: e
+                            })
+                        }
                     }}
                     columns={columns}
                     dataSource={data}
