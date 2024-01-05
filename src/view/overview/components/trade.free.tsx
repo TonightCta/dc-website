@@ -7,12 +7,13 @@ const { RangePicker } = DatePicker;
 interface Fee {
     month: string[],
     trade_fee_plian_pi: number[],
-    trade_fee_plian_pnft: number[]
+    trade_fee_plian_pnft: number[],
+    trade_fee_platon_lat:number[]
 }
 
 const TradeFreeBox = (props: { info: Fee }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         xAxis: {
             type: 'category',
             data: [] as any
@@ -62,12 +63,21 @@ const TradeFreeBox = (props: { info: Fee }): ReactElement => {
                     }
                 },
             },
+            {
+                name: 'LAT',
+                data: [],
+                type: 'line',
+                itemStyle: {
+                    color: '#6a7985'
+                }
+            },
         ]
     };
     useEffect(() => {
         option.xAxis.data = props.info?.month;
         option.series[0].data = props.info?.trade_fee_plian_pi;
         option.series[1].data = props.info?.trade_fee_plian_pnft;
+        option.series[2].data = props.info?.trade_fee_platon_lat;
         let box = echarts.getInstanceByDom(document.getElementById('trade-free-echarts-box') as HTMLElement);
         if (!box) {
             box = echarts.init(document.getElementById('trade-free-echarts-box') as HTMLElement);

@@ -1,19 +1,20 @@
 import { ReactElement, useEffect } from "react";
 import * as echarts from 'echarts'
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
 
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker;
 
 interface Mint {
     month: string[],
     mint_count_filecoin: number[],
     mint_count_op: number[],
-    mint_count_plian: number[]
+    mint_count_plian: number[],
+    mint_count_platon:number[]
 }
 
 const MintBox = (props: { mint: Mint }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         xAxis: {
             type: 'category',
             data: [] as any
@@ -60,7 +61,15 @@ const MintBox = (props: { mint: Mint }): ReactElement => {
                 itemStyle: {
                     color: '#FF7F53'
                 }
-            }
+            },
+            {
+                name: 'PlatON',
+                data: [],
+                type: 'line',
+                itemStyle: {
+                    color: '#6a7985'
+                }
+            },
         ]
     };
     useEffect(() => {
@@ -68,6 +77,7 @@ const MintBox = (props: { mint: Mint }): ReactElement => {
         option.series[0].data = props.mint?.mint_count_plian;
         option.series[1].data = props.mint?.mint_count_op;
         option.series[2].data = props.mint?.mint_count_filecoin;
+        option.series[3].data = props.mint?.mint_count_platon;
         let box = echarts.getInstanceByDom(document.getElementById('mint-echarts-box') as HTMLElement);
         if (!box) {
             box = echarts.init(document.getElementById('mint-echarts-box') as HTMLElement);

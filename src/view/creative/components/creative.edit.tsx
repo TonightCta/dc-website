@@ -89,17 +89,26 @@ const EditCompetitionModal = (props: Props): ReactElement => {
     const handleCancel = () => {
         setVisible(false);
         props.closeModal(false);
+        setInput({
+            name: '',
+            desc: '',
+            start_time: DateConvert(new Date().getTime() / 1000),
+            end_time: DateConvert(new Date().getTime() / 1000)
+        })
     };
     useEffect(() => {
         setVisible(props.visible);
-        const { info } = props;
-        setInput({
-            ...input,
-            name: info?.name || '',
-            desc: info?.description || '',
-            start_time: DateConvert(info?.start_time ? info?.start_time : new Date().getTime() / 1000),
-            end_time: DateConvert(info?.end_time ? info?.end_time : new Date().getTime() / 1000)
-        })
+        const next = () => {
+            const { info } = props;
+            setInput({
+                ...input,
+                name: info?.name || '',
+                desc: info?.description || '',
+                start_time: DateConvert(info?.start_time ? info?.start_time : new Date().getTime() / 1000),
+                end_time: DateConvert(info?.end_time ? info?.end_time : new Date().getTime() / 1000)
+            })
+        }
+        props.visible && next();
     }, [props.visible]);
     const onStartTime: DatePickerProps['onChange'] = (date, dateString) => {
         setInput({
@@ -108,7 +117,6 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         })
     }
     const onEndTime: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString)
         setInput({
             ...input,
             end_time: dateString
@@ -169,7 +177,7 @@ const EditCompetitionModal = (props: Props): ReactElement => {
         setWait(false);
     }
     return (
-        <Modal title={`${props.info?.competition_id ? 'Edit' : 'Add to'} Competition`} width={800} footer={null} open={visible} onCancel={handleCancel}>
+        <Modal title={`${props.info?.competition_id ? 'Edit' : 'Add to'} Competition`} width={800} footer={null} open={visible} destroyOnClose onCancel={handleCancel}>
             <div className="edit-collection">
                 <ul>
                     <li>

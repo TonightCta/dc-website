@@ -1,18 +1,19 @@
 import { ReactElement, useEffect } from "react";
 import * as echarts from 'echarts'
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
 
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker;
 
 interface Amount {
     month: string[],
     trade_amount_plian_pi: number[],
-    trade_amount_plian_pnft: number[]
+    trade_amount_plian_pnft: number[],
+    trade_amount_platon_lat:number[]
 }
 
 const TradeAmountBox = (props: { info: Amount }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         xAxis: {
             type: 'category',
             data: [] as any
@@ -62,12 +63,26 @@ const TradeAmountBox = (props: { info: Amount }): ReactElement => {
                     }
                 },
             },
+            {
+                name: 'LAT',
+                data: [],
+                type: 'line',
+                itemStyle: {
+                    color: '#6a7985'
+                },
+                tooltip: {
+                    valueFormatter: function (value: number) {
+                        return value + ' LAT';
+                    }
+                },
+            },
         ]
     };
     useEffect(() => {
         option.xAxis.data = props.info?.month;
         option.series[0].data = props.info?.trade_amount_plian_pi;
         option.series[1].data = props.info?.trade_amount_plian_pnft;
+        option.series[2].data = props.info?.trade_amount_platon_lat;
         let box = echarts.getInstanceByDom(document.getElementById('trade-amount-echarts-box') as HTMLElement);
         if (!box) {
             box = echarts.init(document.getElementById('trade-amount-echarts-box') as HTMLElement);

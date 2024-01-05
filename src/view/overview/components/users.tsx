@@ -13,7 +13,7 @@ const { RangePicker } = DatePicker;
 
 const UsersBox = (props: { users: User }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         xAxis: {
             type: 'category',
             data: [] as any

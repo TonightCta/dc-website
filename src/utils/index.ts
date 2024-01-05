@@ -15,5 +15,5 @@ export const DateConvert = (_time: number): string => {
     const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
     const hour = date.getHours() >= 10 ? date.getHours() : '0' + date.getHours();
     const min = date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes();
-    return `${month}/${day}/${year} ${hour}:${min}`
+    return `${year}/${month}/${day} ${hour}:${min}`
 };

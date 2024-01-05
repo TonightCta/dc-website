@@ -1,18 +1,19 @@
 import { ReactElement, useEffect } from "react";
 import * as echarts from 'echarts'
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
 
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker;
 
 interface Count {
     month: string[],
     trade_count_plian_pi: number[],
-    trade_count_plian_pnft: number[]
+    trade_count_plian_pnft: number[],
+    trade_count_platon_lat:number[]
 }
 
 const TradeCountBox = (props: { info: Count }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         xAxis: {
             type: 'category',
             data: [] as any
@@ -52,7 +53,14 @@ const TradeCountBox = (props: { info: Count }): ReactElement => {
                 itemStyle: {
                     color: '#12D5DF'
                 },
-
+            },
+            {
+                name: 'LAT',
+                data: [],
+                type: 'line',
+                itemStyle: {
+                    color: '#6a7985'
+                }
             },
         ]
     };
@@ -60,6 +68,7 @@ const TradeCountBox = (props: { info: Count }): ReactElement => {
         option.xAxis.data = props.info?.month;
         option.series[0].data = props.info?.trade_count_plian_pi;
         option.series[1].data = props.info?.trade_count_plian_pnft;
+        option.series[2].data = props.info?.trade_count_platon_lat;
         let box = echarts.getInstanceByDom(document.getElementById('trade-count-echarts-box') as HTMLElement);
         if (!box) {
             box = echarts.init(document.getElementById('trade-count-echarts-box') as HTMLElement);

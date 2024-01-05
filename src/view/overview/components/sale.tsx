@@ -1,19 +1,20 @@
 import { ReactElement, useEffect } from "react";
 import * as echarts from 'echarts'
-import { DatePicker } from 'antd';
+// import { DatePicker } from 'antd';
 
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker;
 
 interface Sale {
     month: string[],
     mint_list_filecoin: number[],
     mint_list_op: number[],
-    mint_list_plian: number
+    mint_list_plian: number[],
+    mint_list_platon:number[],
 }
 
 const SaleBox = (props: { info: Sale }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         xAxis: {
             type: 'category',
             data: [] as any
@@ -60,7 +61,15 @@ const SaleBox = (props: { info: Sale }): ReactElement => {
                 itemStyle: {
                     color: '#FF98FF'
                 }
-            }
+            },
+            {
+                name: 'PlatON',
+                data: [],
+                type: 'line',
+                itemStyle: {
+                    color: '#6a7985'
+                }
+            },
         ]
     };
     useEffect(() => {
@@ -68,6 +77,7 @@ const SaleBox = (props: { info: Sale }): ReactElement => {
         option.series[0].data = props.info?.mint_list_plian;
         option.series[1].data = props.info?.mint_list_op;
         option.series[2].data = props.info?.mint_list_filecoin;
+        option.series[3].data = props.info?.mint_list_platon;
         let box = echarts.getInstanceByDom(document.getElementById('sale-echarts-box') as HTMLElement);
         if (!box) {
             box = echarts.init(document.getElementById('sale-echarts-box') as HTMLElement);

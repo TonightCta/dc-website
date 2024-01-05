@@ -9,12 +9,13 @@ interface Contest {
 
 const ContestBox = (props: { info: Contest }): ReactElement => {
     const option = {
-        height: window.innerWidth <= 1440 ? 230 : 250,
+        height: window.innerWidth <= 1440 ? 220 : 240,
         tooltip: {
             trigger: 'axis',
         },
         grid: {
-            bottom: '14%'
+            bottom: '14%',
+            right:'15%'
         },
         legend: {
             data: ['总作品数', '总点赞数']
@@ -31,22 +32,33 @@ const ContestBox = (props: { info: Contest }): ReactElement => {
         },
         yAxis: [
             {
+                name: '总作品数',
                 type: 'value',
                 min: 0,
-                max: 250,
                 interval: 50,
+                max: 250,
+            },
+            {
+                name: '总点赞数',
+                type: 'value',
+                min: 0,
+                max: 6000,
+                interval: 1000,
+                splitLine:false
             },
         ],
         series: [
             {
                 name: '总作品数',
                 type: 'bar',
-                data: [] as any
+                data: [] as any,
+                yAxisIndex: 0,
             },
             {
                 name: '总点赞数',
                 type: 'bar',
-                data: []
+                data: [],
+                yAxisIndex: 1,
             },
         ]
     };
