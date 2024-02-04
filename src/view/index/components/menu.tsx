@@ -42,8 +42,8 @@ const getItem = (
 const items: MenuItem[] = [
     getItem('总览', '1', '/', <DashboardOutlined />),
     getItem('NFTs管理', '2', '/nfts-screen-f', <InsertRowAboveOutlined />),
-    getItem('NFTs管理-一屏', '3', '/nfts-screen', <InsertRowAboveOutlined />),
-    getItem('NFTs管理-二屏', '4', '/nfts-screen-2', <InsertRowAboveOutlined />),
+    // getItem('NFTs管理-一屏', '3', '/nfts-screen', <InsertRowAboveOutlined />),
+    // getItem('NFTs管理-二屏', '4', '/nfts-screen-2', <InsertRowAboveOutlined />),
     getItem('用户管理', '5', '/users', <ContactsOutlined />),
     getItem('市场管理', '6', '/market', <AuditOutlined />),
     getItem('类别管理', '7', '/category', <BranchesOutlined />),
@@ -70,12 +70,12 @@ const MenuMine = (): ReactElement => {
             case '2':
                 navigate('/nfts-screen-f');
                 break;
-            case '3':
-                navigate('/nfts-screen');
-                break;
-            case '4':
-                navigate('/nfts-screen-2');
-                break;
+            // case '3':
+            //     navigate('/nfts-screen');
+            //     break;
+            // case '4':
+            //     navigate('/nfts-screen-2');
+            //     break;
             case '5':
                 navigate('/users');
                 break;
@@ -112,12 +112,12 @@ const MenuMine = (): ReactElement => {
             case '/nfts-screen-f':
                 setDefaultMenu('2');
                 break;
-            case '/nfts-screen':
-                setDefaultMenu('3');
-                break;
-            case '/nfts-screen-2':
-                setDefaultMenu('4');
-                break;
+            // case '/nfts-screen':
+            //     setDefaultMenu('3');
+            //     break;
+            // case '/nfts-screen-2':
+            //     setDefaultMenu('4');
+            //     break;
             case '/users':
                 setDefaultMenu('5');
                 break;

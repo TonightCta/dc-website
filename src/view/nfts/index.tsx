@@ -9,7 +9,8 @@ const NftsView = (): ReactElement<ReactNode> => {
     const [label, setLabel] = useState<number[]>([]);
     const [sort, setSort] = useState<number>(0);
     const [sortBy, setSortBy] = useState<number>(0);
-    const [poster, setPoster] = useState<boolean>(false);
+    const [poster1, setPoster1] = useState<boolean>(false);
+    const [poster2, setPoster2] = useState<boolean>(false);
     return (
         <div className="nfts-view">
             <FilterBox upCollection={(val: number) => {
@@ -22,10 +23,12 @@ const NftsView = (): ReactElement<ReactNode> => {
                 setSort(val)
             }} upSortBy={(val: number) => {
                 setSortBy(val);
-            }} upPoster={(val: boolean) => {
-                setPoster(val);
+            }} upPoster1={(val: boolean) => {
+                setPoster1(val);
+            }} upPoster2={(val: boolean) => {
+                setPoster2(val);
             }} />
-            <TableList poster={poster} collection={collection} category={category} label={label} sort={sort} sortBy={sortBy} />
+            <TableList poster1={poster1} poster2={poster2} collection={collection} category={category} label={label} sort={sort} sortBy={sortBy} />
         </div>
     )
 };

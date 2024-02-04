@@ -12,7 +12,8 @@ interface Props {
     upLabel: (val: number[]) => void;
     upSort: (val: number) => void;
     upSortBy: (val: number) => void;
-    upPoster: (val: boolean) => void
+    upPoster1: (val: boolean) => void;
+    upPoster2: (val: boolean) => void
 }
 
 const FilterBox = (props: Props): ReactElement => {
@@ -24,7 +25,8 @@ const FilterBox = (props: Props): ReactElement => {
     const [sort, setSort] = useState<number>(1);
     const [editLabel, setEditLabel] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<number>(1);
-    const [onlyPoster, setOnlyPoster] = useState<boolean>(false);
+    const [onlyPoster1, setOnlyPoster1] = useState<boolean>(false);
+    const [onlyPoster2, setOnlyPoster2] = useState<boolean>(false);
     const location = useLocation();
     const [label, setLabel] = useState<{ id: number, name: string, desc: string, bg: string }>({
         id: 0,
@@ -65,7 +67,7 @@ const FilterBox = (props: Props): ReactElement => {
         setCategoryList(data.data.item);
     }
     const getLabelList = async () => {
-        const result = await LabelList({page_size:100});
+        const result = await LabelList({ page_size: 100 });
         const { data } = result;
         data.data.item = data.data.item.map((item: any) => {
             return {
@@ -100,9 +102,13 @@ const FilterBox = (props: Props): ReactElement => {
     const onTagChange = (item: CheckboxValueType[]) => {
         props.upLabel(item as number[]);
     }
-    const onPoster = (checked: boolean) => {
-        setOnlyPoster(checked);
-        props.upPoster(checked)
+    const onPoster1 = (checked: boolean) => {
+        setOnlyPoster1(checked);
+        props.upPoster1(checked)
+    }
+    const onPoster2 = (checked: boolean) => {
+        setOnlyPoster2(checked);
+        props.upPoster2(checked)
     }
     return (
         <div className="filter-box">
@@ -143,10 +149,14 @@ const FilterBox = (props: Props): ReactElement => {
                         <Radio value={2}>Reverse order</Radio>
                     </Radio.Group>
                 </li>
-                {(location.pathname === '/nfts-screen' || location.pathname === '/nfts-screen-2') && <li>
-                    <p>Show only posters:</p>
-                    <Switch checked={onlyPoster} onChange={onPoster} />
-                </li>}
+                <li>
+                    <p className="w-auto">Show only posters 1:</p>
+                    <Switch checked={onlyPoster1} onChange={onPoster1} />
+                </li>
+                <li>
+                    <p className="w-auto">Show only posters 2:</p>
+                    <Switch checked={onlyPoster2} onChange={onPoster2} />
+                </li>
             </ul>
             <p className="cut-line">----------------{`>`}Edit Labels</p>
             <div className="labels-edit">

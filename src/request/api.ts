@@ -70,6 +70,8 @@ export const JoinCompetition = (p: o) => post('/compitems/submit', p);
 export const ScreenList1 = (p: o) => post('/homepage/poster1/list', p);
 //Screen List 2
 export const ScreenList2 = (p: o) => post('/homepage/poster2/list', p);
+//Screen Show List
+export const ScreenShowList = (p: o) => post('/homepage/poster/list', p);
 //Grallery Class List
 export const GrallertCalssList = (p: o) => post('/gallery/class/list', p);
 //Default Info
@@ -108,5 +110,7 @@ export const SetLabels = (p: o) => post('/admin/nft/label/set', p);
 export const UpLabelsBg = (p: o) => post('/nft/label/uploadicon', p);
 //Overview Info
 export const OverViewInfo = (p: o) => post('/admin/statistics/info', p);
+//Poster Set
+export const PosterSet = (p: o) => post('/admin/homepage/poster/set', p);
 
 

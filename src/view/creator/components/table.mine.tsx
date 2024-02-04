@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import { ScreenList1, ScreenList2 } from '../../../request/api'
+import { ScreenList1, ScreenList2, ScreenShowList } from '../../../request/api'
 import type { ColumnsType } from 'antd/es/table';
 import { Table, Image } from "antd";
 
@@ -11,11 +11,6 @@ interface DataType {
 }
 
 const columns: ColumnsType<DataType> = [
-    {
-        title: 'Poster ID',
-        dataIndex: 'hposter_id',
-        key: 'hposter_id',
-    },
     {
         title: 'NFT',
         dataIndex: 'file_ipfs_url',
@@ -41,7 +36,11 @@ interface Props {
 const TableMine = (props: Props): ReactElement => {
     const [data, setData] = useState<DataType[]>([]);
     const getDataList = async () => {
-        const result = props.type === 1 ? await ScreenList1({page_size:30}) : await ScreenList2({page_size:24});
+        const result = await ScreenShowList({
+            screen_no:props.type,
+            page_size:props.type === 1 ? 30 : 24
+        })
+        // const result = props.type === 1 ? await ScreenList1({page_size:30}) : await ScreenList2({page_size:24});
         const { data } = result;
         data.data.item = data.data.item.map((item: DataType, index: number) => {
             return item = {

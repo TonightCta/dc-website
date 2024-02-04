@@ -28,10 +28,19 @@ const MarketView = (): ReactElement<ReactNode> => {
     const [data, setData] = useState<DataType[]>([]);
     const { state } = useContext(VoiceAdmin);
     const [wait, setWait] = useState<boolean>(false);
+    const [page, setPage] = useState<{ page: number, total: number, size: number }>({
+        page: 1,
+        total: 10,
+        size: 10
+    })
     const getDataList = async () => {
         setWait(true);
-        const result = await OrderList({ page_size: 500 });
+        const result = await OrderList({ page_size: page.size,page_num:page.page });
         const { data } = result;
+        setPage({
+            ...page,
+            total: data.data.total
+        })
         data.data.item = data.data.item.map((item: DataType, index: number) => {
             return item = {
                 ...item,
@@ -44,7 +53,7 @@ const MarketView = (): ReactElement<ReactNode> => {
     const [orderID, setOrderID] = useState<string>('');
     useEffect(() => {
         getDataList();
-    }, []);
+    }, [page.size,page.page]);
     const columns: ColumnsType<DataType> = [
         {
             title: 'NFT',
@@ -121,7 +130,16 @@ const MarketView = (): ReactElement<ReactNode> => {
     return (
         <div className="market-view">
             <p className="view-title">市场NFT列表(已上架)</p>
-            <Table columns={columns} loading={wait} dataSource={data} />
+            <Table columns={columns} loading={wait} dataSource={data} pagination={{
+                total: page.total,
+                onChange: (current, size) => {
+                    setPage({
+                        ...page,
+                        page:current,
+                        size:size
+                    })
+                }
+            }} />
         </div>
     )
 };

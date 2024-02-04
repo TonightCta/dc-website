@@ -1,7 +1,7 @@
-import { Table, Image, Button } from "antd";
+import { Table, Image, Button, Switch, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import type { ColumnsType } from 'antd/es/table';
-import { AllNfts, CollectionList } from "../../../request/api";
+import { AllNfts, CollectionList, PosterSet } from "../../../request/api";
 import { VoiceAdmin } from "../../../App";
 import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import EditNftModal from "./edit.nft";
@@ -13,7 +13,8 @@ interface Props {
     label: number[],
     sort: number,
     sortBy: number,
-    poster: boolean
+    poster1: boolean,
+    poster2: boolean
 }
 
 interface DataType {
@@ -36,7 +37,7 @@ const TableList = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [fids, setFids] = useState<number[]>([]);
-    const [tokenID, setTokenID] = useState<number>(0);
+    // const [tokenID, setTokenID] = useState<number>(0);
     const location = useLocation();
     const f: number[] = [];
     const onSelectChange = (newSelectedRowKeys: React.Key[], firstData?: DataType[]) => {
@@ -105,20 +106,48 @@ const TableList = (props: Props): ReactElement => {
             dataIndex: 'collection_name',
             key: 'collection_name',
         },
-        // {
-        //     title: 'Above the fold',
-        //     dataIndex: 'collection_name',
-        //     key: 'collection_name',
-        //     render:(_,{ collection_name }) => <p>-</p>,
-        //     align:'center'
-        // },
-        // {
-        //     title: 'Competition',
-        //     dataIndex: 'collection_name',
-        //     key: 'collection_name',
-        //     render:(_,{ collection_name }) => <p>-</p>,
-        //     align:'center'
-        // },
+        {
+            title: 'Screen one',
+            dataIndex: 'collection_name',
+            key: 'collection_name',
+            render: (_, { is_homepage_poster1,fid }) => <Switch checked={is_homepage_poster1} onChange={async (val: boolean) => {
+                const result:any = await PosterSet({
+                    fids:[fid],
+                    screen_no:1,
+                    is_on:!is_homepage_poster1,
+                    sender:state.address
+                });
+                const { status,data } = result;
+                if(status !== 200){
+                    message.error(result.error);
+                    return 
+                };
+                message.success(data);
+                getData();
+            }} />,
+            align: 'center'
+        },
+        {
+            title: 'Screen two',
+            dataIndex: 'collection_name',
+            key: 'collection_name',
+            render: (_, { is_homepage_poster2,fid }) => <Switch checked={is_homepage_poster2} onChange={async (val: boolean) => {
+                const result:any = await PosterSet({
+                    fids:[fid],
+                    screen_no:2,
+                    is_on:!is_homepage_poster2,
+                    sender:state.address
+                });
+                const { status,data } = result;
+                if(status !== 200){
+                    message.error(result.error);
+                    return 
+                };
+                message.success(data);
+                getData();
+            }} />,
+            align: 'center'
+        },
         // {
         //     title: 'Gallery',
         //     dataIndex: 'collection_name',
@@ -137,12 +166,12 @@ const TableList = (props: Props): ReactElement => {
             category_id: props.category,
             label_ids: props.label,
             sender: state.address,
-            page_size: 10,
+            page_size: paginationProps.pageSize,
             page_num: paginationProps.current,
             sort: props.sort,
             sort_by: props.sortBy,
-            is_homepage_poster1: location.pathname !== '/nfts-screen' ? false : (props.poster ? true : false),
-            is_homepage_poster2: location.pathname !== '/nfts-screen-2' ? false : (props.poster ? true : false),
+            is_homepage_poster1: props.poster1 ? true : false,
+            is_homepage_poster2: props.poster2 ? true : false,
         });
         setWait(false);
         const { data } = result;
@@ -183,7 +212,7 @@ const TableList = (props: Props): ReactElement => {
     useEffect(() => {
         getData();
         onSelectChange([]);
-    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname, paginationProps.current, props.poster]);
+    }, [props.collection, props.category, props.label, props.sort, props.sortBy, location.pathname, paginationProps.current, props.poster1,props.poster2, paginationProps.pageSize]);
     return (
         <div className="table-list-mine">
             <div className="filter-oper">
@@ -211,10 +240,11 @@ const TableList = (props: Props): ReactElement => {
             }} */}
             <Table rowSelection={rowSelection} dataSource={data} loading={wait} scroll={{ y: 560 }} columns={columns} pagination={{
                 total: paginationProps.total,
-                onChange: (e) => {
+                onChange: (e, size) => {
                     setPaginationProps({
                         ...paginationProps,
-                        current: e
+                        current: e,
+                        pageSize: size
                     })
                 }
             }} />

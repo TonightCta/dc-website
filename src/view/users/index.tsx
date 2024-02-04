@@ -78,9 +78,10 @@ const UsersView = (): ReactElement<ReactNode> => {
     const [operAddress, setOperAddress] = useState<string[]>([]);
     const [groupList, setGroupList] = useState<Group[]>([]);
     const [activeList, setActiveList] = useState<number>(99);
-    const [page, setPage] = useState<{ total: number, page: number }>({
+    const [page, setPage] = useState<{ total: number, page: number,size:number }>({
         total: 10,
-        page: 1
+        page: 1,
+        size:10
     })
     const [groupInfo, setGroupInfo] = useState<Group>({
         group_id: 0,
@@ -92,7 +93,7 @@ const UsersView = (): ReactElement<ReactNode> => {
         setWait(true);
         const result = await UsersList({
             sender: state.address,
-            page_size: 10,
+            page_size: page.size,
             page_num: page.page,
         });
         const { data } = result;
@@ -147,7 +148,7 @@ const UsersView = (): ReactElement<ReactNode> => {
     }, [activeList]);
     useEffect(() => {
         getDataList()
-    }, [page.page])
+    }, [page.page,page.size])
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             const arr: string[] = [];
@@ -232,10 +233,11 @@ const UsersView = (): ReactElement<ReactNode> => {
                     }}
                     pagination={{
                         total: page.total,
-                        onChange: (e) => {
+                        onChange: (e,size) => {
                             setPage({
                                 ...page,
-                                page: e
+                                page: e,
+                                size:size
                             })
                         }
                     }}
