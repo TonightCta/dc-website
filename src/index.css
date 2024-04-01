@@ -18,3 +18,15 @@ code {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Bank';
+  src: url('./assets/fonts/BankGothic-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: url('./assets/fonts/Kanit-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}

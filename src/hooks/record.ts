@@ -13,7 +13,7 @@ export const useMediaRecorder = () => {
         mediaRecorder.current.ondataavailable = (blobEvent) => { mediaBlobs.current.push(blobEvent.data); }
         mediaRecorder.current.onstop = () => {
             const blob = new Blob(mediaBlobs.current, { type: 'audio/wav' })
-            const url = URL.createObjectURL(blob); 
+            const url = URL.createObjectURL(blob);
             setAudioFile(blob)
             setMediaUrl(url);
         }

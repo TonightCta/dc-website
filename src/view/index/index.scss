@@ -1,70 +1,7 @@
 .index-view {
   width: 100%;
   height: 100vh;
-  display: flex;
-  .menu-mine {
-    width: 240px;
-    background-color: #001529;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: 0.3s all;
-    position: relative;
-    overflow: hidden;
-    .logo-pic {
-      width: 124px;
-      height: 32px;
-      margin: 24px 0;
-    }
-    .logo-small {
-      width: 32px;
-      height: 32px;
-      margin: 24px auto;
-      display: none;
-    }
-    .ant-menu-item-selected {
-      background-color: #f50992;
-    }
-    .oper-menu {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding-left: 12px;
-      border-radius: 50%;
-      position: absolute;
-      right: -24px;
-      bottom: 200px;
-      width: 60px;
-      height: 60px;
-      background-color: white;
-      span {
-        color: black;
-        font-size: 24px;
-        cursor: pointer;
-      }
-    }
-    .disconnect-box{
-      padding-bottom: 24px;
-    }
-  }
-  .close-menu {
-    width: 80px;
-    .logo-pic {
-      display: none;
-    }
-    .logo-small{
-        display: block;
-    }
-    .disconnect-box{
-      .text-tag{
-        display: none;
-      }
-    }
-  }
   .route-view {
-    flex: 1;
-    padding: 24px;
     height: 100vh;
     overflow: auto;
   }
