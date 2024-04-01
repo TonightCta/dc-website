@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "./static/css/main.86c3b6bd.css",
+    "main.js": "./static/js/main.d4e4a82c.js",
+    "static/css/264.e5cc4ae1.chunk.css": "./static/css/264.e5cc4ae1.chunk.css",
+    "static/js/264.44901420.chunk.js": "./static/js/264.44901420.chunk.js",
+    "static/css/752.cf206256.chunk.css": "./static/css/752.cf206256.chunk.css",
+    "static/js/752.981b534e.chunk.js": "./static/js/752.981b534e.chunk.js",
+    "static/js/848.186dd8ea.chunk.js": "./static/js/848.186dd8ea.chunk.js",
+    "static/js/164.b5a76e56.chunk.js": "./static/js/164.b5a76e56.chunk.js",
+    "static/media/first.bg.png": "./static/media/first.bg.9949f413da7e5d1a55b5.png",
+    "static/media/sec.bg.png": "./static/media/sec.bg.847de45c8bdd7d60a938.png",
+    "static/media/market.bg.png": "./static/media/market.bg.92a18754ff83931554af.png",
+    "static/media/logo.png": "./static/media/logo.ace0760361b5808c2be5.png",
+    "static/media/Kanit-Medium.ttf": "./static/media/Kanit-Medium.a7e1e17c224ce78940f2.ttf",
+    "static/media/BankGothic-Regular.ttf": "./static/media/BankGothic-Regular.0170bc99cca027417518.ttf",
+    "static/media/Spark.otf": "./static/media/Spark.176f71f54147f4c385a0.otf",
+    "index.html": "./index.html",
+    "main.86c3b6bd.css.map": "./static/css/main.86c3b6bd.css.map",
+    "main.d4e4a82c.js.map": "./static/js/main.d4e4a82c.js.map",
+    "264.e5cc4ae1.chunk.css.map": "./static/css/264.e5cc4ae1.chunk.css.map",
+    "264.44901420.chunk.js.map": "./static/js/264.44901420.chunk.js.map",
+    "752.cf206256.chunk.css.map": "./static/css/752.cf206256.chunk.css.map",
+    "752.981b534e.chunk.js.map": "./static/js/752.981b534e.chunk.js.map",
+    "848.186dd8ea.chunk.js.map": "./static/js/848.186dd8ea.chunk.js.map",
+    "164.b5a76e56.chunk.js.map": "./static/js/164.b5a76e56.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.86c3b6bd.css",
+    "static/js/main.d4e4a82c.js"
+  ]
+}

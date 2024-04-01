@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/264.e5cc4ae1.chunk.css","mappings":"AAAA,YAEE,aADA,UACa,CAFf,wBAII,YAAa,CACb,aAAc","sources":["view/index/index.scss"],"sourcesContent":[".index-view {\r\n  width: 100%;\r\n  height: 100vh;\r\n  .route-view {\r\n    height: 100vh;\r\n    overflow: auto;\r\n  }\r\n}\r\n"],"names":[],"sourceRoot":""}

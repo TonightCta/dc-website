@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkvoice_admin=self.webpackChunkvoice_admin||[]).push([[264],{264:(e,s,i)=>{i.r(s),i.d(s,{default:()=>d});var a=i(292),c=i(884);const d=()=>(0,c.jsx)("div",{className:"index-view",children:(0,c.jsx)("div",{className:"route-view",children:(0,c.jsx)(a.yY,{})})})}}]);
+//# sourceMappingURL=264.44901420.chunk.js.map
