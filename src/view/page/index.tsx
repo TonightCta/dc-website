@@ -12,7 +12,7 @@ import RightWapper from './components/right';
 import RoadMapWapper from './components/roadmap';
 
 const PageView = (): ReactElement<ReactNode> => {
-    const tag: string[] = ['LAUNCHPAD', 'ABOUT', 'NEWS', 'MARKET', 'ROADMAP'];
+    const tag: string[] = ['LAUNCHPAD', 'ABOUT', 'MARKET', 'ROADMAP'];
     const [swiper, setSwiper] = useState<any>();
     const CuestomControl = () => {
         return (
@@ -33,9 +33,6 @@ const PageView = (): ReactElement<ReactNode> => {
                                             break;
                                         case 3:
                                             swiper.slideTo(3)
-                                            break;
-                                        case 4:
-                                            swiper.slideTo(4)
                                             break;
                                         default:
                                             swiper.slideTo(0)
@@ -67,9 +64,9 @@ const PageView = (): ReactElement<ReactNode> => {
                 <SwiperSlide>
                     <AboutWapper/>
                 </SwiperSlide>
-                <SwiperSlide>
+                {/* <SwiperSlide>
                     <NewsWapper/>
-                </SwiperSlide>
+                </SwiperSlide> */}
                 <SwiperSlide>
                     <MarketView/>
                 </SwiperSlide>
